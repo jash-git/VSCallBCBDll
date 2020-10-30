@@ -1,0 +1,6 @@
+C:\Users\jashliao\Desktop\CSCallBCBDll\CSCallBCBDll\bin\Debug\CSCallBCBDll.exe.config
+C:\Users\jashliao\Desktop\CSCallBCBDll\CSCallBCBDll\bin\Debug\CSCallBCBDll.exe
+C:\Users\jashliao\Desktop\CSCallBCBDll\CSCallBCBDll\bin\Debug\CSCallBCBDll.pdb
+C:\Users\jashliao\Desktop\CSCallBCBDll\CSCallBCBDll\obj\Debug\CSCallBCBDll.csprojResolveAssemblyReference.cache
+C:\Users\jashliao\Desktop\CSCallBCBDll\CSCallBCBDll\obj\Debug\CSCallBCBDll.exe
+C:\Users\jashliao\Desktop\CSCallBCBDll\CSCallBCBDll\obj\Debug\CSCallBCBDll.pdb

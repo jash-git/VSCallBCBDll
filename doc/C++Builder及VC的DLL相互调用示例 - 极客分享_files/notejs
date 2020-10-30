@@ -1,0 +1,40 @@
+$('.load-note[note-id=1]').html('<!-- add content 1 --> ')
+$('.load-note[note-id=2]').html('<!-- add content 2 --> 欢迎来到GeekShare')
+$('.load-note[note-id=3]').html('<!-- add content 3 --> <div class=\"_lz047ggmym8\" style=\"margin: 15px auto;\"></div>\
+<script type=\"text/javascript\">\
+    (window.slotbydup = window.slotbydup || []).push({\
+        id: \"u5949971\",\
+        container: \"_lz047ggmym8\",\
+        async: true\
+    });\
+</script>\
+<!-- 多条广告如下脚本只需引入一次 -->\
+<script type=\"text/javascript\" src=\"//cpro.baidustatic.com/cpro/ui/cm.js\" async=\"async\" defer=\"defer\" >\
+</script>')
+$('.load-note[note-id=4]').html('<!-- add content 4 --> <div class=\"_fyfun4zjhrt\"></div>\
+<script type=\"text/javascript\">\
+    (window.slotbydup = window.slotbydup || []).push({\
+        id: \"u6188941\",\
+        container: \"_fyfun4zjhrt\",\
+        async: true\
+    });\
+</script>')
+$('.load-note[note-id=5]').html('<!-- add content 5 --> <div class=\"_zkg490455vd\"></div>\
+<script type=\"text/javascript\">\
+    (window.slotbydup = window.slotbydup || []).push({\
+        id: \"u6188948\",\
+        container: \"_zkg490455vd\",\
+        async: true\
+    });\
+</script>')
+$('.load-note[note-id=6]').html('<!-- add content 6 --> <div class=\"_0zqldqjuxg2\" style=\"text-align: center;\"></div>\
+<script type=\"text/javascript\">\
+    (window.slotbydup = window.slotbydup || []).push({\
+        id: \"u6188950\",\
+        container: \"_0zqldqjuxg2\",\
+        async: true\
+    });\
+</script>')
+$('.load-note[note-id=7]').html('<!-- add content 7 --> ')
+$('.load-note[note-id=8]').html('<!-- add content 8 --> ')
+$('.load-note[note-id=9]').html('<!-- add content 9 --> ')

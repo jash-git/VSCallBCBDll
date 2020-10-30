@@ -1,0 +1,364 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0049)https://www.geek-share.com/detail/2693281198.html -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><style class="vjs-styles-defaults">
+      .video-js {
+        width: 300px;
+        height: 150px;
+      }
+
+      .vjs-fluid {
+        padding-top: 56.25%
+      }
+    </style>
+        
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <meta name="format-detection" content="telephone=no">
+        <title>C++Builder及VC的DLL相互调用示例 - 极客分享</title>
+        <meta name="keywords" content="">
+        <meta name="description" content="C++Builder及VC的DLL相互调用示例由于MS和Borland（CodeGear）两家的编辑器实现细节不同，造成了它们生成的DLL不能相互通用，因此给实际带来了很多的麻烦。下面来说一说如何解决这个问题。 VC生成DLL，C++Builder调用1、用extern &quot;C&quot;修饰VC导出的DLL函数。如：extern &quot;C&quot; __declspe">
+
+        
+<link rel="stylesheet" href="./C++Builder及VC的DLL相互调用示例 - 极客分享_files/bootstrap.min.css">
+<link rel="stylesheet" href="./C++Builder及VC的DLL相互调用示例 - 极客分享_files/font-awesome.min.css">
+<link rel="stylesheet" href="./C++Builder及VC的DLL相互调用示例 - 极客分享_files/base.css">
+<link rel="stylesheet" href="./C++Builder及VC的DLL相互调用示例 - 极客分享_files/ThinkBox.css">
+<link rel="stylesheet" href="./C++Builder及VC的DLL相互调用示例 - 极客分享_files/jquery.searchableSelect.css">
+<script type="text/javascript" async="" src="./C++Builder及VC的DLL相互调用示例 - 极客分享_files/auto_dup"></script><script src="./C++Builder及VC的DLL相互调用示例 - 极客分享_files/osd.js.下載"></script><script src="./C++Builder及VC的DLL相互调用示例 - 极客分享_files/f.txt"></script><script src="./C++Builder及VC的DLL相互调用示例 - 极客分享_files/f(1).txt" id="google_shimpl"></script><script src="./C++Builder及VC的DLL相互调用示例 - 极客分享_files/hm.js.下載"></script><script src="./C++Builder及VC的DLL相互调用示例 - 极客分享_files/jquery-1.8.1.min.js.下載"></script>
+<script src="./C++Builder及VC的DLL相互调用示例 - 极客分享_files/jquery.searchableSelect.js.下載"></script>
+<script src="./C++Builder及VC的DLL相互调用示例 - 极客分享_files/jquery.ThinkBox.min.js.下載" defer=""></script>
+<script src="./C++Builder及VC的DLL相互调用示例 - 极客分享_files/geek.js.下載" defer=""></script>
+<script type="text/javascript">
+    var uid = '0';
+
+</script>        <script src="./C++Builder及VC的DLL相互调用示例 - 极客分享_files/detail.js.下載"></script>
+        <link rel="stylesheet" href="./C++Builder及VC的DLL相互调用示例 - 极客分享_files/detail.css">
+        <link rel="stylesheet" href="./C++Builder及VC的DLL相互调用示例 - 极客分享_files/new_style.css">
+    <link rel="preload" href="./C++Builder及VC的DLL相互调用示例 - 极客分享_files/f(2).txt" as="script"><script type="text/javascript" src="./C++Builder及VC的DLL相互调用示例 - 极客分享_files/f(2).txt"></script><link rel="preload" href="./C++Builder及VC的DLL相互调用示例 - 极客分享_files/f(3).txt" as="script"><script type="text/javascript" src="./C++Builder及VC的DLL相互调用示例 - 极客分享_files/f(3).txt"></script></head>
+    <body><div id="BAIDU_DUP_fp_wrapper" style="position: absolute; left: -1px; bottom: -1px; z-index: 0; width: 0px; height: 0px; overflow: hidden; visibility: hidden; display: none;"><iframe id="BAIDU_DUP_fp_iframe" src="./C++Builder及VC的DLL相互调用示例 - 极客分享_files/o.html" style="width: 0px; height: 0px; visibility: hidden; display: none;"></iframe></div>
+    <header class="header">
+<div class="toolbar">
+    <div class="container row center-block">
+        <div class="col-md-3 pull-left logo clearfix">
+            <a title="极客分享首页" href="https://www.geek-share.com/">极客分享</a>
+            &nbsp;
+            <a title="极客微信公众号" href="https://www.geek-share.com/wxlist.html">公众号</a>
+        </div>
+                <div class="col-md-3 bdsearch_div">
+            <form name="bdsearch" action="https://www.geek-share.com/index/search" method="GET" target="_blank">
+                <div class="input-group">
+                    <input type="text" class="form-control" name="q">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+                    <input type="hidden" name="s" value="1100493486385857222">
+                </div>
+            </form>
+        </div>
+                <div class="pull-right login-wrap">
+            <ul class="btns">
+                <li>
+                                <a class="abtn login-btn" data-type="login">登录&nbsp;</a>|<a class="abtn login-btn" data-type="register">&nbsp;注册</a>
+                                </li>
+            </ul>
+        </div>
+
+    </div>
+</div>
+
+<!--mobile-->
+<ul class="header_mini visible-phone list-unstyled">
+    <!--
+    <li><i class="fa fa-align-justify"></i> </li>
+    -->
+    <li><a href="https://www.geek-share.com/"><i class="fa fa-home"></i></a> </li>
+    <li><a href="https://www.geek-share.com/">极客分享</a> </li>
+    <!--
+    <li>
+    <form name='bdsearch' action='/index/search' method='GET' target='_blank'>
+        <div class="input-group">
+            <input type="text" class="form-control" name='q' />
+            <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+            <input type='hidden' name='s' value='1100493486385857222' />
+        </div>
+    </form>
+    </li>
+    -->
+    <li>
+    <!--
+    <a href="/search" title="搜索"><i class="fa fa-search"></i></a>
+    <a class="start_cmmde share-link-btn" data-type='1' title="分享网址"><i class="fa fa-link"></i></a>
+    <a class="start_cmmde share-link-btn" data-type='2' title="分享文章"><i class="fa fa-file-text-o"></i></a>
+    -->
+        <a class="abtn login-btn" data-type="login">登录&nbsp;</a>|<a class="abtn login-btn" data-type="register">&nbsp;注册</a>
+        </li>
+</ul>
+
+<script type="text/javascript">
+    function load_login_call_back() {
+    
+    }
+
+$(function() {
+    $('.bdsearch_div input[name=q]').keydown(function(event) {
+        if(event.keyCode == 13) {
+            $('.bdsearch_div form[name=bdsearch]').submit();
+        }
+    })
+    $('.bdsearch_div .input-group-addon').click(function() {
+        $('.bdsearch_div form[name=bdsearch]').submit();
+    })
+
+    $('.bdsearch_div form[name=bdsearch]').submit(function() {
+        var search = $(this).serialize();
+        window.open('http://zhannei.baidu.com/cse/search?'+search);
+        return false;    
+    });
+})
+</script>
+</header>    <div class="content" style="min-height: 791px;">
+        <div class="content_body">
+            <div class="now"> 
+                <i class="fa fa-home"></i> 您的位置：<a href="https://www.geek-share.com/">首页</a>&nbsp;&gt;&nbsp;<a href="https://www.geek-share.com/cate/code.html">编程语言</a>&nbsp;&gt;&nbsp;<a href="https://www.geek-share.com/cate/cpp.html">C语言/C++</a>
+                <span class="load-note" note-id="2"><!-- add content 2 --> 欢迎来到GeekShare</span>
+            </div>
+            <div class="top-note-box load-note" note-id="1"><!-- add content 1 --> </div>
+            <div class="content_left">
+                <div class="white-div">
+                    <div class="detail_info">
+                    <div class="detail_title">
+                        <h1>C++Builder及VC的DLL相互调用示例</h1>
+                    </div>
+                    <div class="detail_info_left">
+                        <span class="muted"><i class="fa fa-user"></i> <a href="https://www.geek-share.com/geeker/451056.html" class="load-card" uid="{$doc.uid}">shufac</a></span>
+                        <span class="muted"><i class="fa fa-clock-o"></i> 2016-12-21 08:46</span>
+                        <span class="muted"><i class="fa fa-eye"></i> 155&nbsp;查看</span>
+                                                <!--
+                        <span class='muted'><a href='{$siteconfig.report_url}&title=【举报文章】{$doc.title}' target="_blank">举报</a></span>
+                        -->
+
+                        
+                                             </div>
+                    <div class="detail_info_right">
+                    </div>
+                    <div class="clear"></div>
+                </div>
+
+                <div class="detail_content">
+                    <div class="load-note" note-id="3"><!-- add content 3 --> <div class="_lz047ggmym8" style="margin: 15px auto;"><iframe id="iframeu5949971_0" name="iframeu5949971_0" src="./C++Builder及VC的DLL相互调用示例 - 极客分享_files/rccm.html" width="760" height="90" align="center,center" vspace="0" hspace="0" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" style="border:0;vertical-align:bottom;margin:0;width:760px;height:90px" allowtransparency="true"></iframe></div><!-- 多条广告如下脚本只需引入一次 --></div>
+                                        <div class="content_view">
+                                                <h2 data-head_index="1">C++Builder及VC的DLL相互调用示例</h2>由于MS和Borland（CodeGear）两家的编辑器实现细节不同，造成了它们生成的DLL不能相互通用，因此给实际带来了很多的麻烦。下面来说一说如何解决这个问题。<br><br><h2 data-head_index="2">&nbsp;VC生成DLL，C++Builder调用</h2>1、用extern "C"修饰VC导出的DLL函数。如：extern "C" __declspec(dllexport) int aFunc(int a);&nbsp;<br><br>2、用C++Builder的implib工具生成DLL对应的lib文件。如：implib -a xxx.lib xxx.dll（注意，implib一定要带-a开关）。生成lib文件之后，C++Builder便可以使用这个lib文件了。&nbsp;<br><br><h2 data-head_index="3">C++Builder生成DLL，VC调用</h2>1、用extern "C"修饰C++Builder导出的DLL函数。如：extern "C" __declspec(dllexport) int aFunc(int a);&nbsp;<br><br>2、用C++Builder的impdef工具生成DLL对应的def文件。如：impdef xxx.def xxx.dll。&nbsp;<br>说明：<br><br>1）impdef.exe是C++Builder自带的工具，在安装目录可以找到它；<br><br>2）将impdef.exe单独拷贝到一个文件夹，拷贝待转换的dll文件到这个目录；<br><br>3）在这个目录下，新建一个bat文件，输入 impdef XXX.def XXX.dll(XXX为待转换文件名)<br><br>3、用记事本打开xxx.def文件，删去每个函数名前的"_"。如原来的def文件为：&nbsp;<br><br>C/C++ code<br><br>LIBRARY &nbsp; &nbsp; XXX.DLL<br><br>EXPORTS<br><br>&nbsp; &nbsp; ___CPPdebugHook &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;@2 &nbsp; ; ___CPPdebugHook<br><br>&nbsp; &nbsp; _aFunc &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; @1 &nbsp; ; _aFunc<br><br>那么删除后就变成了：&nbsp;<br><br>C/C++ code<br><br>LIBRARY &nbsp; &nbsp; XXX.DLL<br><br>EXPORTS<br><br>&nbsp; &nbsp; __CPPdebugHook &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;@2 &nbsp; ; ___CPPdebugHook<br><br>&nbsp; &nbsp; aFunc &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; @1 &nbsp; ; _aFunc<br><br>4、用VC的LIB工具，根据上面的def文件生成lib文件。如：LIB /DEF:XXX.def。生成lib文件之后，VC便可以使用这个lib文件了。&nbsp;<br>说明：<br><br>1）lib.exe是VC自带的，在VC安装目录下；<br><br>2）将lib.exe拷贝到第2步的那个目录下；<br>3）再次新建一个bat文件，输入 LIB /DEF:XXX.def,就会在当前目录下生成VC中使用的lib文件.<br><br>综上说来，两种工具开发的DLL在相互使用的时候，主要的问题便是lib库的问题，能把这一问题解决好行了。
+                                            </div>
+                                        <div class="bottom-note-box load-note" note-id="4"><!-- add content 4 --> <div class="_fyfun4zjhrt"><iframe id="iframeu6188941_0" name="iframeu6188941_0" src="./C++Builder及VC的DLL相互调用示例 - 极客分享_files/rccm(1).html" width="780" height="200" align="center,center" vspace="0" hspace="0" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" style="border:0;vertical-align:bottom;margin:0;width:780px;height:200px" allowtransparency="true"></iframe></div></div>
+                    <div class="detail_cate">
+                        <div class="detail_tags">
+                        <b><i class="fa fa-tags"></i> 标签：</b>&nbsp;
+                                                </div>
+                        <div class="clear"></div>
+                    </div>
+
+                    <!--
+                    <div class="open-message">
+                        <i class="fa fa-bullhorn"></i>
+                        如果您想留下此文，您可以将其发送至您的邮箱(将同时以邮件内容&PDF形式发送)<br/>
+                        <input type='text' name='send_email' value='' placeholder='输入接收邮箱，可以输入多个，用;隔开' style='width:300px;' />&nbsp;<input type='button' class='btn btn-success' onclick='loadSendDoc(true);' value='发送到邮箱' />
+                    </div>
+                    -->
+                </div>
+            </div><!--white-div-->
+
+            <div class="white-div mt10">
+                <div class="content_title"><b>相关文章推荐</b></div>
+                <div class="relate-doc-top"></div>
+                <div class="relate_doc" id="relate_doc_list">
+                    <ul>
+                                                                        <li><i class="fa fa-minus"></i><a href="https://www.geek-share.com/detail/2657790494.html">C++Builder及VC的DLL相互调用</a></li>
+                                                <li><i class="fa fa-minus"></i><a href="https://www.geek-share.com/detail/2461151963.html">C++Builder及VC的DLL相互调用[转自csdn论坛]</a></li>
+                                                <li><i class="fa fa-minus"></i><a href="https://www.geek-share.com/detail/2499703400.html">C++Builder及VC的DLL相互调用</a></li>
+                                                <li><i class="fa fa-minus"></i><a href="https://www.geek-share.com/detail/2503480285.html">C++Builder及VC的DLL相互调用</a></li>
+                                                <li><i class="fa fa-minus"></i><a href="https://www.geek-share.com/detail/2502261620.html">[转]c++builder调用VC的dll以及VC调用c++builder的dll</a></li>
+                                                <li><i class="fa fa-minus"></i><a href="https://www.geek-share.com/detail/2472992062.html">在C++builder中用伪造的dll生成的lib文件可正常调用vc写的dll</a></li>
+                                                <li><i class="fa fa-minus"></i><a href="https://www.geek-share.com/detail/2670483758.html">vc调用dll 示例</a></li>
+                                                <li><i class="fa fa-minus"></i><a href="https://www.geek-share.com/detail/2492942902.html">C++Builder、C#、VC调用 C++Builder制作的DLL</a></li>
+                                                <li><i class="fa fa-minus"></i><a href="https://www.geek-share.com/detail/2637555683.html">QT编写DLL给外部程序调用，提供VC/C#/C调用示例（含事件）</a></li>
+                                                <li><i class="fa fa-minus"></i><a href="https://www.geek-share.com/detail/2670321751.html">QT编写DLL给外部程序调用，提供VC/C#/C调用示例（含事件）</a></li>
+                                                <li><i class="fa fa-minus"></i><a href="https://www.geek-share.com/detail/2626859840.html">c++builder调用VC的dll以及VC调用c++builder的dll</a></li>
+                                                <li><i class="fa fa-minus"></i><a href="https://www.geek-share.com/detail/2626858040.html">C++Builder及VC的库相互调用</a></li>
+                                                <li><i class="fa fa-minus"></i><a href="https://www.geek-share.com/detail/2661358761.html">QT编写DLL给外部程序调用，提供VC/C#/C调用示例（含事件）</a></li>
+                                                <li><i class="fa fa-minus"></i><a href="https://www.geek-share.com/detail/2438789360.html">C++Builder调用VC的dll以及VC调用C++Builder的dll</a></li>
+                                                <li><i class="fa fa-minus"></i><a href="https://www.geek-share.com/detail/2564814802.html">VC++和C++builder互相调用动态链接库DLL（VC++编的）笔记</a></li>
+                                                <li><i class="fa fa-minus"></i><a href="https://www.geek-share.com/detail/2599498288.html">C++Builder调用VC生成的DLL方法</a></li>
+                                                <li><i class="fa fa-minus"></i><a href="https://www.geek-share.com/detail/2695554321.html">QT编写DLL给外部程序调用，提供VC/C#/C调用示例（含事件）good</a></li>
+                                                <li><i class="fa fa-minus"></i><a href="https://www.geek-share.com/detail/2657788975.html">c++builder调用vc的dll</a></li>
+                                                <li><i class="fa fa-minus"></i><a href="https://www.geek-share.com/detail/2646654862.html">c++builder调用vc的dll</a></li>
+                                                <li><i class="fa fa-minus"></i><a href="https://www.geek-share.com/detail/2570378362.html">VC、GCC 之间DLL 的相互调用</a></li>
+                                                                    </ul>
+                </div>
+            </div>
+        </div><!--left-->
+        <div class="content_right">
+            <div class="load-note" note-id="5" style="margin-bottom: 10px;"><!-- add content 5 --> <div class="_zkg490455vd"><iframe id="iframeu6188948_0" name="iframeu6188948_0" src="./C++Builder及VC的DLL相互调用示例 - 极客分享_files/rccm(2).html" width="360" height="300" align="center,center" vspace="0" hspace="0" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" style="border:0;vertical-align:bottom;margin:0;width:360px;height:300px" allowtransparency="true"></iframe></div></div>
+            <div class="white-div">
+                <div class="sidbar_div">
+                    <div class="content_title"><b>极客分享</b></div>
+                    <div class="sidbar_list">
+                        <ul>
+                                                        <li><i class="fa fa-minus"></i><a href="https://www.geek-share.com/detail/2693493291.html">解决COM端口号与工具比匹配的问题</a></li>
+                                                        <li><i class="fa fa-minus"></i><a href="https://www.geek-share.com/detail/2695908282.html">16句微博上的经典语录，说得太好了！</a></li>
+                                                        <li><i class="fa fa-minus"></i><a href="https://www.geek-share.com/detail/2695908477.html">十个糟糕的程序员的行为</a></li>
+                                                        <li><i class="fa fa-minus"></i><a href="https://www.geek-share.com/detail/2699017197.html">C/C++ sizeof与strlen区别</a></li>
+                                                        <li><i class="fa fa-minus"></i><a href="https://www.geek-share.com/detail/2701783812.html">用cmd执行命令方法汇总</a></li>
+                                                        <li><i class="fa fa-minus"></i><a href="https://www.geek-share.com/detail/2703251606.html">循环执行shell脚本</a></li>
+                                                        <li><i class="fa fa-minus"></i><a href="https://www.geek-share.com/detail/2704809832.html">C++实现预装驱动功能</a></li>
+                                                        <li><i class="fa fa-minus"></i><a href="https://www.geek-share.com/detail/2707227248.html">抓包工具feddler</a></li>
+                                                        <li><i class="fa fa-minus"></i><a href="https://www.geek-share.com/detail/2707402366.html">json解析数组</a></li>
+                                                        <li><i class="fa fa-minus"></i><a href="https://www.geek-share.com/detail/2708676265.html">MsXml创建和解析XML示例</a></li>
+                                                        <li><i class="fa fa-minus"></i><a href="https://www.geek-share.com/detail/2711029884.html">VC实现http发送get和post请求</a></li>
+                                                        <li><i class="fa fa-minus"></i><a href="https://www.geek-share.com/detail/2714723638.html">C#中ArrayList类的元素访问</a></li>
+                                                    </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="white-div mt10">
+                <div class="sidbar_div">
+                    <div class="content_title"><b>新的分享</b></div>
+                    <div class="sidbar_list">
+                        <ul>
+                                                        <li><i class="fa fa-minus"></i><a href="https://www.geek-share.com/detail/2797233461.html">C++动态数组测试事例（七彩云南-20200309发表）</a></li>
+                                                        <li><i class="fa fa-minus"></i><a href="https://www.geek-share.com/detail/2797233061.html">机试训练-ZZULIOJ 1023-1032(C语言)</a></li>
+                                                        <li><i class="fa fa-minus"></i><a href="https://www.geek-share.com/detail/2797232894.html">2020腾讯C++后台开发暑期实习电话面（一）</a></li>
+                                                        <li><i class="fa fa-minus"></i><a href="https://www.geek-share.com/detail/2797232891.html">C++内存管理（面试版）</a></li>
+                                                        <li><i class="fa fa-minus"></i><a href="https://www.geek-share.com/detail/2797232887.html">C++ 关键字explicit与函数memset()详解</a></li>
+                                                        <li><i class="fa fa-minus"></i><a href="https://www.geek-share.com/detail/2797232884.html">C++Lambda匿名函数（详解）</a></li>
+                                                        <li><i class="fa fa-minus"></i><a href="https://www.geek-share.com/detail/2797232829.html">C语言makefile文件</a></li>
+                                                        <li><i class="fa fa-minus"></i><a href="https://www.geek-share.com/detail/2797232824.html">C语言gdb调试</a></li>
+                                                        <li><i class="fa fa-minus"></i><a href="https://www.geek-share.com/detail/2797232822.html">C语言编译预处理</a></li>
+                                                        <li><i class="fa fa-minus"></i><a href="https://www.geek-share.com/detail/2797232820.html">C语言获取系统错误</a></li>
+                                                        <li><i class="fa fa-minus"></i><a href="https://www.geek-share.com/detail/2797232817.html">C语言目录和文件操作扩展</a></li>
+                                                        <li><i class="fa fa-minus"></i><a href="https://www.geek-share.com/detail/2797232814.html">C语言时间操作</a></li>
+                                                    </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="white-div mt10 topic_nav" style="position: static; width: 100%; top: 40px;">
+                <div class="sidbar_div">
+                    <div class="content_title">章节导航</div>
+                    <div class="sidbar_list topic_nav_list">
+                        <div class="highlight-title" style="display: block; top: 10px; height: 30px;"></div>
+                        <ul class="articleIndex"><li data-head_index="1" class="active"><a href="javascript:void(0);">C++Builder及VC的DLL相互调用示例</a></li><li data-head_index="2" class=""><a href="javascript:void(0);">VC生成DLL，C++Builder调用</a></li><li data-head_index="3" class=""><a href="javascript:void(0);">C++Builder生成DLL，VC调用</a></li></ul>
+                    </div>
+                </div>
+            </div>
+        </div> <!--right-->
+        <div class="clear"></div>
+    </div>
+</div>
+
+    <ul class="scrolltop_bar list-unstyled data-offset-top affix-top" data-spy="affix" data-offset-top="250">
+    <li class="new_share" title="分享">
+    <div class="bdsharebuttonbox hover_show">
+        <a class="bds_tsina" data-cmd="tsina"></a>
+        <a class="bds_weixin" data-cmd="weixin"></a>
+    </div>
+    <a class="btn hover_hide"> <i class="fa fa-share-alt"></i></a>
+    </li>
+    <li class="new_comment">
+    <a class="start_cmmde btn" data-target="comment_news"><span>添加评论</span><i class="fa fa-comments"></i></a>
+    </li>
+    <li class="new_geek">
+    <a class="start_cmmde btn share-link-btn" data-type="1"><span>分享网址</span><i class="fa fa-link"></i></a>
+    </li>
+    <li class="new_geek">
+    <a class="start_cmmde btn share-link-btn" data-type="2"><span>分享文章</span><i class="fa fa-file-text-o"></i></a>
+    </li>
+    <li class="js-scroll-top">
+    <a class="btn"><span>返回顶部</span><i class="fa fa-arrow-up"></i></a>
+    </li>
+    <!--
+    <li class="js-list-top">
+    <a class="btn"><span>返回顶部</span><i class="fa fa-arrow-up"></i></a>
+    </li>
+    -->
+</ul><footer class="footer">
+<div class="footer-inner">
+    <div class="copyright pull-left">
+        <a href="https://www.geek-share.com/" title="极客分享">https://www.geek-share.com/</a> 
+        GeekShare·极客分享·来自极客的分享  © 2016-2019 ·  
+        <a href="http://www.beian.miit.gov.cn/" target="_blank">粤ICP备17045047号</a>
+        &nbsp;<a target="_blank" href="https://wpa.qq.com/msgrd?v=3&amp;uin=2300620005&amp;site=qq&amp;menu=yes"><img border="0" src="./C++Builder及VC的DLL相互调用示例 - 极客分享_files/button_111.gif" alt="点击这里给我发消息" title="点击这里给我发消息"></a>
+    </div>
+    <div class="trackcode pull-right">
+        <script>
+            var _hmt = _hmt || [];
+            (function() {
+                var hm = document.createElement("script");
+                hm.src = "https://hm.baidu.com/hm.js?7ed446819d539a64900a28a84b99bc32";
+                var s = document.getElementsByTagName("script")[0]; 
+                s.parentNode.insertBefore(hm, s);
+            })();
+        </script>
+
+    </div>
+</div>
+</footer>
+<script src="./C++Builder及VC的DLL相互调用示例 - 极客分享_files/xiuxiu.js.下載" type="text/javascript"></script>
+<script type="text/javascript" charset="utf-8" src="./C++Builder及VC的DLL相互调用示例 - 极客分享_files/ueditor.config.js.下載"></script>
+<script type="text/javascript" charset="utf-8" src="./C++Builder及VC的DLL相互调用示例 - 极客分享_files/ueditor.all.min.js.下載"> </script>
+<script type="text/javascript" charset="utf-8" src="./C++Builder及VC的DLL相互调用示例 - 极客分享_files/zh-cn.js.下載"></script>
+<script src="./C++Builder及VC的DLL相互调用示例 - 极客分享_files/namedavatar.min.js.下載"></script>
+<script type="text/javascript">
+    $(function() {
+        $('.user-pic').each(function() {
+            var src = $(this).attr('src');
+            src = src.split('/');
+            if(src[src.length-1] == 'u.png') {
+            namedavatar.setImg(this, this.alt.substr(0, 3));    
+            }
+        })
+
+        $(window).resize(function() {
+            calcMinHeight(); 
+        })
+
+        function calcMinHeight() {
+            if (window.innerHeight)
+                winHeight = window.innerHeight;
+            else if ((document.body) && (document.body.clientHeight))
+                winHeight = document.body.clientHeight;
+            else if (document.documentElement  && document.documentElement.clientHeight && document.documentElement.clientWidth)
+            {
+                winHeight = document.documentElement.clientHeight;
+            } 
+            $('.main').css('min-height', winHeight-50);
+            $('.content').css('min-height', winHeight-90);
+        }
+        calcMinHeight();
+    })
+</script>
+<script type="text/javascript" src="./C++Builder及VC的DLL相互调用示例 - 极客分享_files/cm.js.下載" async="async" defer="defer"></script>
+<script type="text/javascript" async="" charset="utf-8" src="./C++Builder及VC的DLL相互调用示例 - 极客分享_files/notejs"></script>
+<script data-ad-client="ca-pub-8588029585549143" async="" src="./C++Builder及VC的DLL相互调用示例 - 极客分享_files/f(4).txt" data-checked-head="true"></script>
+
+<script type="text/javascript">
+    var topic_id = '2693281198';
+    var is_report = false;
+    $('.detail_content img').error(function() {
+        if(is_report) {
+            console&&console.log('is report');
+            return true;
+        }
+        is_report = true;
+        $.post('/topic/reporterror',{topic_id:topic_id}, function(data) {
+            if(data.status == 0 && data.data == true) {
+                window.location.reload();
+            }
+            
+        },'json');
+    })
+    $('.content_wview .rich_media_content').css('visibility', 'visible');
+
+    $('.detail_content img[data-src]').each(function() {
+        $(this).attr('src', $(this).attr('data-src'));        
+    })
+    
+</script>
+<ins class="adsbygoogle adsbygoogle-noablate" data-adsbygoogle-status="done" style="display: none !important;"><ins id="aswift_0_expand" style="display:inline-table;border:none;height:0px;margin:0;padding:0;position:relative;visibility:visible;width:0px;background-color:transparent;"><ins id="aswift_0_anchor" style="display:block;border:none;height:0px;margin:0;padding:0;position:relative;visibility:visible;width:0px;background-color:transparent;"><iframe id="aswift_0" name="aswift_0" style="left:0;position:absolute;top:0;border:0;width:undefinedpx;height:undefinedpx;" sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation" frameborder="0" src="./C++Builder及VC的DLL相互调用示例 - 极客分享_files/ads.html" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" data-google-container-id="a!0" data-load-complete="true"></iframe></ins></ins></ins><iframe id="google_osd_static_frame_6667192814695" name="google_osd_static_frame" style="display: none; width: 0px; height: 0px;" src="./C++Builder及VC的DLL相互调用示例 - 极客分享_files/saved_resource.html"></iframe></body><iframe id="google_esf" name="google_esf" src="./C++Builder及VC的DLL相互调用示例 - 极客分享_files/zrt_lookup.html" data-ad-client="ca-pub-8588029585549143" style="display: none;"></iframe></html>

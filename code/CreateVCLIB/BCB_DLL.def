@@ -1,0 +1,5 @@
+LIBRARY     BCB_DLL.DLL
+
+EXPORTS
+    BCBType_Count                 @1   ; _BCBType_Count
+    ___CPPdebugHook                @2   ; ___CPPdebugHook

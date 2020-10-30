@@ -1,0 +1,1308 @@
+<!DOCTYPE html>
+<!-- saved from url=(0055)http://tommychentw.blogspot.com/2016/06/bcb-dlldll.html -->
+<html class="v2" dir="ltr" lang="zh-TW"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><style class="vjs-styles-defaults">
+      .video-js {
+        width: 300px;
+        height: 150px;
+      }
+
+      .vjs-fluid {
+        padding-top: 56.25%
+      }
+    </style>
+<link href="./程序猿的程式寫作記錄_ [BCB] 創建dll和使用dll方法_files/3416767676-css_bundle_v2.css" rel="stylesheet" type="text/css">
+<meta content="width=1100" name="viewport">
+
+<meta content="blogger" name="generator">
+<link href="http://tommychentw.blogspot.com/favicon.ico" rel="icon" type="image/x-icon">
+<link href="http://tommychentw.blogspot.com/2016/06/bcb-dlldll.html" rel="canonical">
+<link rel="alternate" type="application/atom+xml" title="程序猿的程式寫作記錄 - Atom" href="http://tommychentw.blogspot.com/feeds/posts/default">
+<link rel="alternate" type="application/rss+xml" title="程序猿的程式寫作記錄 - RSS" href="http://tommychentw.blogspot.com/feeds/posts/default?alt=rss">
+<link rel="service.post" type="application/atom+xml" title="程序猿的程式寫作記錄 - Atom" href="https://www.blogger.com/feeds/2455990311231669349/posts/default">
+
+<link rel="alternate" type="application/atom+xml" title="程序猿的程式寫作記錄 - Atom" href="http://tommychentw.blogspot.com/feeds/5541112400630989946/comments/default">
+<!--[if IE]><script type="text/javascript" src="https://www.blogger.com/static/v1/jsbin/4244862144-ieretrofit.js"></script>
+<![endif]-->
+<link href="./程序猿的程式寫作記錄_ [BCB] 創建dll和使用dll方法_files/new dll project.png" rel="image_src">
+<meta content="http://tommychentw.blogspot.com/2016/06/bcb-dlldll.html" property="og:url">
+<meta content="[BCB] 創建dll和使用dll方法" property="og:title">
+<meta content="DLL的原文為Dynamic Link Library，中文稱為動態連結函式庫。   使用dll的好處可減少程式佔用記憶體空間，當程式有需要時才會將dll所需要的資源載入到memory中。 除了記憶體的優勢外，當開發大型程式時，可將程式所需的功能拆成一個個component，將這..." property="og:description">
+<meta content="https://4.bp.blogspot.com/-7MlUZWWs8Jo/V1J5NJiDefI/AAAAAAAAFtU/-oiuDVitAcUv-U2My2TQfyy0anhAO7zawCLcB/w1200-h630-p-k-no-nu/new%2Bdll%2Bproject.png" property="og:image">
+<!--[if IE]> <script> (function() { var html5 = ("abbr,article,aside,audio,canvas,datalist,details," + "figure,footer,header,hgroup,mark,menu,meter,nav,output," + "progress,section,time,video").split(','); for (var i = 0; i < html5.length; i++) { document.createElement(html5[i]); } try { document.execCommand('BackgroundImageCache', false, true); } catch(e) {} })(); </script> <![endif]-->
+<title>程序猿的程式寫作記錄: [BCB] 創建dll和使用dll方法</title>
+<style id="page-skin-1" type="text/css"><!--
+/*
+-----------------------------------------------
+Blogger Template Style
+Name:     Simple
+Designer: Josh Peterson
+URL:      www.noaesthetic.com
+----------------------------------------------- */
+/* Variable definitions
+====================
+<Variable name="keycolor" description="Main Color" type="color" default="#66bbdd"/>
+<Group description="Page Text" selector="body">
+<Variable name="body.font" description="Font" type="font"
+default="normal normal 12px Arial, Tahoma, Helvetica, FreeSans, sans-serif"/>
+<Variable name="body.text.color" description="Text Color" type="color" default="#222222"/>
+</Group>
+<Group description="Backgrounds" selector=".body-fauxcolumns-outer">
+<Variable name="body.background.color" description="Outer Background" type="color" default="#66bbdd"/>
+<Variable name="content.background.color" description="Main Background" type="color" default="#ffffff"/>
+<Variable name="header.background.color" description="Header Background" type="color" default="transparent"/>
+</Group>
+<Group description="Links" selector=".main-outer">
+<Variable name="link.color" description="Link Color" type="color" default="#2288bb"/>
+<Variable name="link.visited.color" description="Visited Color" type="color" default="#888888"/>
+<Variable name="link.hover.color" description="Hover Color" type="color" default="#33aaff"/>
+</Group>
+<Group description="Blog Title" selector=".header h1">
+<Variable name="header.font" description="Font" type="font"
+default="normal normal 60px Arial, Tahoma, Helvetica, FreeSans, sans-serif"/>
+<Variable name="header.text.color" description="Title Color" type="color" default="#3399bb" />
+</Group>
+<Group description="Blog Description" selector=".header .description">
+<Variable name="description.text.color" description="Description Color" type="color"
+default="#777777" />
+</Group>
+<Group description="Tabs Text" selector=".tabs-inner .widget li a">
+<Variable name="tabs.font" description="Font" type="font"
+default="normal normal 14px Arial, Tahoma, Helvetica, FreeSans, sans-serif"/>
+<Variable name="tabs.text.color" description="Text Color" type="color" default="#999999"/>
+<Variable name="tabs.selected.text.color" description="Selected Color" type="color" default="#000000"/>
+</Group>
+<Group description="Tabs Background" selector=".tabs-outer .PageList">
+<Variable name="tabs.background.color" description="Background Color" type="color" default="#f5f5f5"/>
+<Variable name="tabs.selected.background.color" description="Selected Color" type="color" default="#eeeeee"/>
+</Group>
+<Group description="Post Title" selector="h3.post-title, .comments h4">
+<Variable name="post.title.font" description="Font" type="font"
+default="normal normal 22px Arial, Tahoma, Helvetica, FreeSans, sans-serif"/>
+</Group>
+<Group description="Date Header" selector=".date-header">
+<Variable name="date.header.color" description="Text Color" type="color"
+default="#222222"/>
+<Variable name="date.header.background.color" description="Background Color" type="color"
+default="transparent"/>
+<Variable name="date.header.font" description="Text Font" type="font"
+default="normal bold 11px Arial, Tahoma, Helvetica, FreeSans, sans-serif"/>
+<Variable name="date.header.padding" description="Date Header Padding" type="string" default="inherit"/>
+<Variable name="date.header.letterspacing" description="Date Header Letter Spacing" type="string" default="inherit"/>
+<Variable name="date.header.margin" description="Date Header Margin" type="string" default="inherit"/>
+</Group>
+<Group description="Post Footer" selector=".post-footer">
+<Variable name="post.footer.text.color" description="Text Color" type="color" default="#666666"/>
+<Variable name="post.footer.background.color" description="Background Color" type="color"
+default="#f9f9f9"/>
+<Variable name="post.footer.border.color" description="Shadow Color" type="color" default="#eeeeee"/>
+</Group>
+<Group description="Gadgets" selector="h2">
+<Variable name="widget.title.font" description="Title Font" type="font"
+default="normal bold 11px Arial, Tahoma, Helvetica, FreeSans, sans-serif"/>
+<Variable name="widget.title.text.color" description="Title Color" type="color" default="#000000"/>
+<Variable name="widget.alternate.text.color" description="Alternate Color" type="color" default="#999999"/>
+</Group>
+<Group description="Images" selector=".main-inner">
+<Variable name="image.background.color" description="Background Color" type="color" default="#ffffff"/>
+<Variable name="image.border.color" description="Border Color" type="color" default="#eeeeee"/>
+<Variable name="image.text.color" description="Caption Text Color" type="color" default="#222222"/>
+</Group>
+<Group description="Accents" selector=".content-inner">
+<Variable name="body.rule.color" description="Separator Line Color" type="color" default="#eeeeee"/>
+<Variable name="tabs.border.color" description="Tabs Border Color" type="color" default="#eeeeee"/>
+</Group>
+<Variable name="body.background" description="Body Background" type="background"
+color="#66bbdd" default="$(color) none repeat scroll top left"/>
+<Variable name="body.background.override" description="Body Background Override" type="string" default=""/>
+<Variable name="body.background.gradient.cap" description="Body Gradient Cap" type="url"
+default="url(https://www.blogblog.com/1kt/simple/gradients_light.png)"/>
+<Variable name="body.background.gradient.tile" description="Body Gradient Tile" type="url"
+default="url(https://www.blogblog.com/1kt/simple/body_gradient_tile_light.png)"/>
+<Variable name="content.background.color.selector" description="Content Background Color Selector" type="string" default=".content-inner"/>
+<Variable name="content.padding" description="Content Padding" type="length" default="10px" min="0" max="100px"/>
+<Variable name="content.padding.horizontal" description="Content Horizontal Padding" type="length" default="10px" min="0" max="100px"/>
+<Variable name="content.shadow.spread" description="Content Shadow Spread" type="length" default="40px" min="0" max="100px"/>
+<Variable name="content.shadow.spread.webkit" description="Content Shadow Spread (WebKit)" type="length" default="5px" min="0" max="100px"/>
+<Variable name="content.shadow.spread.ie" description="Content Shadow Spread (IE)" type="length" default="10px" min="0" max="100px"/>
+<Variable name="main.border.width" description="Main Border Width" type="length" default="0" min="0" max="10px"/>
+<Variable name="header.background.gradient" description="Header Gradient" type="url" default="none"/>
+<Variable name="header.shadow.offset.left" description="Header Shadow Offset Left" type="length" default="-1px" min="-50px" max="50px"/>
+<Variable name="header.shadow.offset.top" description="Header Shadow Offset Top" type="length" default="-1px" min="-50px" max="50px"/>
+<Variable name="header.shadow.spread" description="Header Shadow Spread" type="length" default="1px" min="0" max="100px"/>
+<Variable name="header.padding" description="Header Padding" type="length" default="30px" min="0" max="100px"/>
+<Variable name="header.border.size" description="Header Border Size" type="length" default="1px" min="0" max="10px"/>
+<Variable name="header.bottom.border.size" description="Header Bottom Border Size" type="length" default="1px" min="0" max="10px"/>
+<Variable name="header.border.horizontalsize" description="Header Horizontal Border Size" type="length" default="0" min="0" max="10px"/>
+<Variable name="description.text.size" description="Description Text Size" type="string" default="140%"/>
+<Variable name="tabs.margin.top" description="Tabs Margin Top" type="length" default="0" min="0" max="100px"/>
+<Variable name="tabs.margin.side" description="Tabs Side Margin" type="length" default="30px" min="0" max="100px"/>
+<Variable name="tabs.background.gradient" description="Tabs Background Gradient" type="url"
+default="url(https://www.blogblog.com/1kt/simple/gradients_light.png)"/>
+<Variable name="tabs.border.width" description="Tabs Border Width" type="length" default="1px" min="0" max="10px"/>
+<Variable name="tabs.bevel.border.width" description="Tabs Bevel Border Width" type="length" default="1px" min="0" max="10px"/>
+<Variable name="post.margin.bottom" description="Post Bottom Margin" type="length" default="25px" min="0" max="100px"/>
+<Variable name="image.border.small.size" description="Image Border Small Size" type="length" default="2px" min="0" max="10px"/>
+<Variable name="image.border.large.size" description="Image Border Large Size" type="length" default="5px" min="0" max="10px"/>
+<Variable name="page.width.selector" description="Page Width Selector" type="string" default=".region-inner"/>
+<Variable name="page.width" description="Page Width" type="string" default="auto"/>
+<Variable name="main.section.margin" description="Main Section Margin" type="length" default="15px" min="0" max="100px"/>
+<Variable name="main.padding" description="Main Padding" type="length" default="15px" min="0" max="100px"/>
+<Variable name="main.padding.top" description="Main Padding Top" type="length" default="30px" min="0" max="100px"/>
+<Variable name="main.padding.bottom" description="Main Padding Bottom" type="length" default="30px" min="0" max="100px"/>
+<Variable name="paging.background"
+color="#ffffff"
+description="Background of blog paging area" type="background"
+default="transparent none no-repeat scroll top center"/>
+<Variable name="footer.bevel" description="Bevel border length of footer" type="length" default="0" min="0" max="10px"/>
+<Variable name="mobile.background.overlay" description="Mobile Background Overlay" type="string"
+default="transparent none repeat scroll top left"/>
+<Variable name="mobile.background.size" description="Mobile Background Size" type="string" default="auto"/>
+<Variable name="mobile.button.color" description="Mobile Button Color" type="color" default="#ffffff" />
+<Variable name="startSide" description="Side where text starts in blog language" type="automatic" default="left"/>
+<Variable name="endSide" description="Side where text ends in blog language" type="automatic" default="right"/>
+*/
+/* Content
+----------------------------------------------- */
+body {
+font: normal normal 12px Arial, Tahoma, Helvetica, FreeSans, sans-serif;
+color: #222222;
+background: #66bbdd none repeat scroll top left;
+padding: 0 40px 40px 40px;
+}
+html body .region-inner {
+min-width: 0;
+max-width: 100%;
+width: auto;
+}
+h2 {
+font-size: 22px;
+}
+a:link {
+text-decoration:none;
+color: #2288bb;
+}
+a:visited {
+text-decoration:none;
+color: #888888;
+}
+a:hover {
+text-decoration:underline;
+color: #33aaff;
+}
+.body-fauxcolumn-outer .fauxcolumn-inner {
+background: transparent url(https://www.blogblog.com/1kt/simple/body_gradient_tile_light.png) repeat scroll top left;
+_background-image: none;
+}
+.body-fauxcolumn-outer .cap-top {
+position: absolute;
+z-index: 1;
+height: 400px;
+width: 100%;
+}
+.body-fauxcolumn-outer .cap-top .cap-left {
+width: 100%;
+background: transparent url(https://www.blogblog.com/1kt/simple/gradients_light.png) repeat-x scroll top left;
+_background-image: none;
+}
+.content-outer {
+-moz-box-shadow: 0 0 40px rgba(0, 0, 0, .15);
+-webkit-box-shadow: 0 0 5px rgba(0, 0, 0, .15);
+-goog-ms-box-shadow: 0 0 10px #333333;
+box-shadow: 0 0 40px rgba(0, 0, 0, .15);
+margin-bottom: 1px;
+}
+.content-inner {
+padding: 10px 10px;
+}
+.content-inner {
+background-color: #ffffff;
+}
+/* Header
+----------------------------------------------- */
+.header-outer {
+background: transparent none repeat-x scroll 0 -400px;
+_background-image: none;
+}
+.Header h1 {
+font: normal normal 60px Arial, Tahoma, Helvetica, FreeSans, sans-serif;
+color: #3399bb;
+text-shadow: -1px -1px 1px rgba(0, 0, 0, .2);
+}
+.Header h1 a {
+color: #3399bb;
+}
+.Header .description {
+font-size: 140%;
+color: #777777;
+}
+.header-inner .Header .titlewrapper {
+padding: 22px 30px;
+}
+.header-inner .Header .descriptionwrapper {
+padding: 0 30px;
+}
+/* Tabs
+----------------------------------------------- */
+.tabs-inner .section:first-child {
+border-top: 1px solid #eeeeee;
+}
+.tabs-inner .section:first-child ul {
+margin-top: -1px;
+border-top: 1px solid #eeeeee;
+border-left: 0 solid #eeeeee;
+border-right: 0 solid #eeeeee;
+}
+.tabs-inner .widget ul {
+background: #f5f5f5 url(https://www.blogblog.com/1kt/simple/gradients_light.png) repeat-x scroll 0 -800px;
+_background-image: none;
+border-bottom: 1px solid #eeeeee;
+margin-top: 0;
+margin-left: -30px;
+margin-right: -30px;
+}
+.tabs-inner .widget li a {
+display: inline-block;
+padding: .6em 1em;
+font: normal normal 14px Arial, Tahoma, Helvetica, FreeSans, sans-serif;
+color: #999999;
+border-left: 1px solid #ffffff;
+border-right: 1px solid #eeeeee;
+}
+.tabs-inner .widget li:first-child a {
+border-left: none;
+}
+.tabs-inner .widget li.selected a, .tabs-inner .widget li a:hover {
+color: #000000;
+background-color: #eeeeee;
+text-decoration: none;
+}
+/* Columns
+----------------------------------------------- */
+.main-outer {
+border-top: 0 solid #eeeeee;
+}
+.fauxcolumn-left-outer .fauxcolumn-inner {
+border-right: 1px solid #eeeeee;
+}
+.fauxcolumn-right-outer .fauxcolumn-inner {
+border-left: 1px solid #eeeeee;
+}
+/* Headings
+----------------------------------------------- */
+div.widget > h2,
+div.widget h2.title {
+margin: 0 0 1em 0;
+font: normal bold 11px Arial, Tahoma, Helvetica, FreeSans, sans-serif;
+color: #000000;
+}
+/* Widgets
+----------------------------------------------- */
+.widget .zippy {
+color: #999999;
+text-shadow: 2px 2px 1px rgba(0, 0, 0, .1);
+}
+.widget .popular-posts ul {
+list-style: none;
+}
+/* Posts
+----------------------------------------------- */
+h2.date-header {
+font: normal bold 11px Arial, Tahoma, Helvetica, FreeSans, sans-serif;
+}
+.date-header span {
+background-color: transparent;
+color: #222222;
+padding: inherit;
+letter-spacing: inherit;
+margin: inherit;
+}
+.main-inner {
+padding-top: 30px;
+padding-bottom: 30px;
+}
+.main-inner .column-center-inner {
+padding: 0 15px;
+}
+.main-inner .column-center-inner .section {
+margin: 0 15px;
+}
+.post {
+margin: 0 0 25px 0;
+}
+h3.post-title, .comments h4 {
+font: normal normal 22px Arial, Tahoma, Helvetica, FreeSans, sans-serif;
+margin: .75em 0 0;
+}
+.post .code {
+display: block; /* fixes a strange ie margin bug */
+font-family: Courier New;
+font-size: 10pt;
+overflow:auto;
+background: #f0f0f0 url(http://你的圖檔位置/Code_BG.gif) left top repeat-y;
+border: 1px solid #ccc;
+padding: 10px 10px 10px 21px;
+max-height:200px;
+line-height: 1.2em;
+}
+.post-body {
+font-size: 110%;
+line-height: 1.4;
+position: relative;
+}
+.post-body img, .post-body .tr-caption-container, .Profile img, .Image img,
+.BlogList .item-thumbnail img {
+padding: 2px;
+background: #ffffff;
+border: 1px solid #eeeeee;
+-moz-box-shadow: 1px 1px 5px rgba(0, 0, 0, .1);
+-webkit-box-shadow: 1px 1px 5px rgba(0, 0, 0, .1);
+box-shadow: 1px 1px 5px rgba(0, 0, 0, .1);
+}
+.post-body img, .post-body .tr-caption-container {
+padding: 5px;
+}
+.post-body .tr-caption-container {
+color: #222222;
+}
+.post-body .tr-caption-container img {
+padding: 0;
+background: transparent;
+border: none;
+-moz-box-shadow: 0 0 0 rgba(0, 0, 0, .1);
+-webkit-box-shadow: 0 0 0 rgba(0, 0, 0, .1);
+box-shadow: 0 0 0 rgba(0, 0, 0, .1);
+}
+.post-header {
+margin: 0 0 1.5em;
+line-height: 1.6;
+font-size: 90%;
+}
+.post-footer {
+margin: 20px -2px 0;
+padding: 5px 10px;
+color: #666666;
+background-color: #f9f9f9;
+border-bottom: 1px solid #eeeeee;
+line-height: 1.6;
+font-size: 90%;
+}
+#comments .comment-author {
+padding-top: 1.5em;
+border-top: 1px solid #eeeeee;
+background-position: 0 1.5em;
+}
+#comments .comment-author:first-child {
+padding-top: 0;
+border-top: none;
+}
+.avatar-image-container {
+margin: .2em 0 0;
+}
+#comments .avatar-image-container img {
+border: 1px solid #eeeeee;
+}
+/* Comments
+----------------------------------------------- */
+.comments .comments-content .icon.blog-author {
+background-repeat: no-repeat;
+background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEgAACxIB0t1+/AAAAAd0SU1FB9sLFwMeCjjhcOMAAAD+SURBVDjLtZSvTgNBEIe/WRRnm3U8RC1neQdsm1zSBIU9VVF1FkUguQQsD9ITmD7ECZIJSE4OZo9stoVjC/zc7ky+zH9hXwVwDpTAWWLrgS3QAe8AZgaAJI5zYAmc8r0G4AHYHQKVwII8PZrZFsBFkeRCABYiMh9BRUhnSkPTNCtVXYXURi1FpBDgArj8QU1eVXUzfnjv7yP7kwu1mYrkWlU33vs1QNu2qU8pwN0UpKoqokjWwCztrMuBhEhmh8bD5UDqur75asbcX0BGUB9/HAMB+r32hznJgXy2v0sGLBcyAJ1EK3LFcbo1s91JeLwAbwGYu7TP/3ZGfnXYPgAVNngtqatUNgAAAABJRU5ErkJggg==);
+}
+.comments .comments-content .loadmore a {
+border-top: 1px solid #999999;
+border-bottom: 1px solid #999999;
+}
+.comments .comment-thread.inline-thread {
+background-color: #f9f9f9;
+}
+.comments .continue {
+border-top: 2px solid #999999;
+}
+/* Accents
+---------------------------------------------- */
+.section-columns td.columns-cell {
+border-left: 1px solid #eeeeee;
+}
+.blog-pager {
+background: transparent none no-repeat scroll top center;
+}
+.blog-pager-older-link, .home-link,
+.blog-pager-newer-link {
+background-color: #ffffff;
+padding: 5px;
+}
+.footer-outer {
+border-top: 0 dashed #bbbbbb;
+}
+/* Mobile
+----------------------------------------------- */
+body.mobile  {
+background-size: auto;
+}
+.mobile .body-fauxcolumn-outer {
+background: transparent none repeat scroll top left;
+}
+.mobile .body-fauxcolumn-outer .cap-top {
+background-size: 100% auto;
+}
+.mobile .content-outer {
+-webkit-box-shadow: 0 0 3px rgba(0, 0, 0, .15);
+box-shadow: 0 0 3px rgba(0, 0, 0, .15);
+}
+.mobile .tabs-inner .widget ul {
+margin-left: 0;
+margin-right: 0;
+}
+.mobile .post {
+margin: 0;
+}
+.mobile .main-inner .column-center-inner .section {
+margin: 0;
+}
+.mobile .date-header span {
+padding: 0.1em 10px;
+margin: 0 -10px;
+}
+.mobile h3.post-title {
+margin: 0;
+}
+.mobile .blog-pager {
+background: transparent none no-repeat scroll top center;
+}
+.mobile .footer-outer {
+border-top: none;
+}
+.mobile .main-inner, .mobile .footer-inner {
+background-color: #ffffff;
+}
+.mobile-index-contents {
+color: #222222;
+}
+.mobile-link-button {
+background-color: #2288bb;
+}
+.mobile-link-button a:link, .mobile-link-button a:visited {
+color: #ffffff;
+}
+.mobile .tabs-inner .section:first-child {
+border-top: none;
+}
+.mobile .tabs-inner .PageList .widget-content {
+background-color: #eeeeee;
+color: #000000;
+border-top: 1px solid #eeeeee;
+border-bottom: 1px solid #eeeeee;
+}
+.mobile .tabs-inner .PageList .widget-content .pagelist-arrow {
+border-left: 1px solid #eeeeee;
+}
+
+--></style>
+<style id="template-skin-1" type="text/css"><!--
+body {
+min-width: 960px;
+}
+.content-outer, .content-fauxcolumn-outer, .region-inner {
+min-width: 960px;
+max-width: 960px;
+_width: 960px;
+}
+.main-inner .columns {
+padding-left: 0px;
+padding-right: 310px;
+}
+.main-inner .fauxcolumn-center-outer {
+left: 0px;
+right: 310px;
+/* IE6 does not respect left and right together */
+_width: expression(this.parentNode.offsetWidth -
+parseInt("0px") -
+parseInt("310px") + 'px');
+}
+.main-inner .fauxcolumn-left-outer {
+width: 0px;
+}
+.main-inner .fauxcolumn-right-outer {
+width: 310px;
+}
+.main-inner .column-left-outer {
+width: 0px;
+right: 100%;
+margin-left: -0px;
+}
+.main-inner .column-right-outer {
+width: 310px;
+margin-right: -310px;
+}
+#layout {
+min-width: 0;
+}
+#layout .content-outer {
+min-width: 0;
+width: 800px;
+}
+#layout .region-inner {
+min-width: 0;
+width: auto;
+}
+body#layout div.add_widget {
+padding: 8px;
+}
+body#layout div.add_widget a {
+margin-left: 32px;
+}
+--></style>
+<link href="./程序猿的程式寫作記錄_ [BCB] 創建dll和使用dll方法_files/authorization.css" media="all" onload="if(media!=&#39;all&#39;)media=&#39;all&#39;" rel="stylesheet"><noscript><link href='https://www.blogger.com/dyn-css/authorization.css?targetBlogID=2455990311231669349&amp;zx=3065218e-fd23-458b-8279-cfcb9d125367' rel='stylesheet'/></noscript>
+
+<script type="text/javascript" src="./程序猿的程式寫作記錄_ [BCB] 創建dll和使用dll方法_files/f.txt"></script><style>.gc-bubbleDefault{table-layout:auto!important}.gc-bubbleDefault,.gc-reset{background-color:transparent!important;text-align:left;padding:0!important;margin:0!important;border:0!important}.pls-bubbleTop{border-bottom:1px solid #ccc!important}.pls-contentLeft,.pls-topTail,.pls-vertShimLeft{background-image:url(//ssl.gstatic.com/s2/oz/images/stars/po/bubblev1/border_3.gif)!important}.pls-topTail{background-repeat:repeat-x!important;background-position:bottom!important}.pls-vertShim{background-color:#fff!important;text-align:right}.tbl-grey .pls-vertShim{background-color:#f5f5f5!important}.pls-vertShimLeft{background-repeat:repeat-y!important;background-position:100%!important;height:4px}.pls-vertShimRight{height:4px}.pls-confirm-container .pls-vertShim{background-color:#fff3c2!important}.pls-contentWrap{background-color:#fff!important;position:relative!important;vertical-align:top}.pls-contentLeft{background-repeat:repeat-y;background-position:100%;vertical-align:top}.pls-dropRight{background-image:url(//ssl.gstatic.com/s2/oz/images/stars/po/bubblev1/bubbleDropR_3.png)!important;background-repeat:repeat-y!important}.pls-dropBL,.pls-dropBottom,.pls-dropRight,.pls-dropTR .pls-dropBR,.pls-tailleft,.pls-vert,.pls-vert img{vertical-align:top}.pls-dropBottom{background-image:url(//ssl.gstatic.com/s2/oz/images/stars/po/bubblev1/bubbleDropB_3.png)!important;background-repeat:repeat-x!important;width:100%}.pls-topLeft{text-align:right}.pls-topLeft,.pls-topRight{background:inherit!important;vertical-align:bottom}.pls-topRight{text-align:left}.pls-bottomLeft{background:inherit!important;text-align:right}.pls-bottomRight{background:inherit!important;text-align:left;vertical-align:top}.pls-tailbottom,.pls-tailleft,.pls-tailright,.pls-tailtop{display:none;position:relative}.pls-dropBL,.pls-dropBR,.pls-dropTR,.pls-tailbottom,.pls-tailleft,.pls-tailright,.pls-tailtop{background-image:url(//ssl.gstatic.com/s2/oz/images/stars/po/bubblev1/bubbleSprite_3.png)!important;background-repeat:no-repeat}.tbl-grey .pls-dropBL,.tbl-grey .pls-dropBR,.tbl-grey .pls-dropTR,.tbl-grey .pls-tailbottom,.tbl-grey .pls-tailleft,.tbl-grey .pls-tailright,.tbl-grey .pls-tailtop{background-image:url(//ssl.gstatic.com/s2/oz/images/stars/po/bubblev1/bubbleSprite-grey.png)!important}.pls-tailbottom{background-position:-23px 0}.pls-confirm-container .pls-tailbottom{background-position:-23px -10px}.pls-tailtop{background-position:-19px -20px}.pls-tailright{background-position:0 0}.pls-tailleft{background-position:-10px 0}.pls-tailtop{vertical-align:top}.gc-bubbleDefault td{line-height:0;font-size:0}.pls-tailbottom,.pls-topLeft img,.pls-topRight img{vertical-align:bottom}.bubbleDropTR,.pls-bottomLeft,.pls-bottomLeft img,.pls-dropBottom img,.pls-dropBottomL img,.pls-dropBottomR img{vertical-align:top}.pls-dropTR{background-position:0 -22px}.pls-dropBR{background-position:0 -27px}.pls-dropBL{background-position:0 -16px}.pls-spacerbottom,.pls-spacerleft,.pls-spacerright,.pls-spacertop{position:static!important}.pls-spinner{bottom:0;position:absolute;left:0;margin:auto;right:0;top:0}</style></head>
+<body class="">
+<div class="navbar section" id="navbar" name="導覽列"><div class="widget Navbar" data-version="1" id="Navbar1"><script src="./程序猿的程式寫作記錄_ [BCB] 創建dll和使用dll方法_files/cb=gapi(2).loaded_1" async=""></script><script src="./程序猿的程式寫作記錄_ [BCB] 創建dll和使用dll方法_files/cb=gapi(1).loaded_0" async=""></script><script type="text/javascript">
+    function setAttributeOnload(object, attribute, val) {
+      if(window.addEventListener) {
+        window.addEventListener('load',
+          function(){ object[attribute] = val; }, false);
+      } else {
+        window.attachEvent('onload', function(){ object[attribute] = val; });
+      }
+    }
+  </script>
+<div id="navbar-iframe-container"><iframe ng-non-bindable="" frameborder="0" hspace="0" marginheight="0" marginwidth="0" scrolling="no" style="" tabindex="0" vspace="0" width="100%" id="navbar-iframe" name="navbar-iframe" src="./程序猿的程式寫作記錄_ [BCB] 創建dll和使用dll方法_files/navbar.html"></iframe></div>
+<script type="text/javascript" src="./程序猿的程式寫作記錄_ [BCB] 創建dll和使用dll方法_files/plusone.js.下載" gapi_processed="true"></script>
+<script type="text/javascript">
+      gapi.load("gapi.iframes:gapi.iframes.style.bubble", function() {
+        if (gapi.iframes && gapi.iframes.getContext) {
+          gapi.iframes.getContext().openChild({
+              url: 'https://www.blogger.com/navbar.g?targetBlogID\x3d2455990311231669349\x26blogName\x3d%E7%A8%8B%E5%BA%8F%E7%8C%BF%E7%9A%84%E7%A8%8B%E5%BC%8F%E5%AF%AB%E4%BD%9C%E8%A8%98%E9%8C%84\x26publishMode\x3dPUBLISH_MODE_BLOGSPOT\x26navbarType\x3dLIGHT\x26layoutType\x3dLAYOUTS\x26searchRoot\x3dhttps://tommychentw.blogspot.com/search\x26blogLocale\x3dzh_TW\x26v\x3d2\x26homepageUrl\x3dhttp://tommychentw.blogspot.com/\x26targetPostID\x3d5541112400630989946\x26blogPostOrPageUrl\x3dhttp://tommychentw.blogspot.com/2016/06/bcb-dlldll.html\x26vt\x3d276938403181324774',
+              where: document.getElementById("navbar-iframe-container"),
+              id: "navbar-iframe"
+          });
+        }
+      });
+    </script><script type="text/javascript">
+(function() {
+var script = document.createElement('script');
+script.type = 'text/javascript';
+script.src = '//pagead2.googlesyndication.com/pagead/js/google_top_exp.js';
+var head = document.getElementsByTagName('head')[0];
+if (head) {
+head.appendChild(script);
+}})();
+</script>
+</div></div>
+<div class="body-fauxcolumns">
+<div class="fauxcolumn-outer body-fauxcolumn-outer">
+<div class="cap-top">
+<div class="cap-left"></div>
+<div class="cap-right"></div>
+</div>
+<div class="fauxborder-left">
+<div class="fauxborder-right"></div>
+<div class="fauxcolumn-inner">
+</div>
+</div>
+<div class="cap-bottom">
+<div class="cap-left"></div>
+<div class="cap-right"></div>
+</div>
+</div>
+</div>
+<div class="content">
+<div class="content-fauxcolumns">
+<div class="fauxcolumn-outer content-fauxcolumn-outer">
+<div class="cap-top">
+<div class="cap-left"></div>
+<div class="cap-right"></div>
+</div>
+<div class="fauxborder-left">
+<div class="fauxborder-right"></div>
+<div class="fauxcolumn-inner">
+</div>
+</div>
+<div class="cap-bottom">
+<div class="cap-left"></div>
+<div class="cap-right"></div>
+</div>
+</div>
+</div>
+<div class="content-outer">
+<div class="content-cap-top cap-top">
+<div class="cap-left"></div>
+<div class="cap-right"></div>
+</div>
+<div class="fauxborder-left content-fauxborder-left">
+<div class="fauxborder-right content-fauxborder-right"></div>
+<div class="content-inner">
+<header>
+<div class="header-outer">
+<div class="header-cap-top cap-top">
+<div class="cap-left"></div>
+<div class="cap-right"></div>
+</div>
+<div class="fauxborder-left header-fauxborder-left">
+<div class="fauxborder-right header-fauxborder-right"></div>
+<div class="region-inner header-inner">
+<div class="header section" id="header" name="標頭"><div class="widget Header" data-version="1" id="Header1">
+<div id="header-inner">
+<div class="titlewrapper">
+<h1 class="title">
+<a href="http://tommychentw.blogspot.com/">
+程序猿的程式寫作記錄
+</a>
+</h1>
+</div>
+<div class="descriptionwrapper">
+<p class="description"><span>
+</span></p>
+</div>
+</div>
+</div></div>
+</div>
+</div>
+<div class="header-cap-bottom cap-bottom">
+<div class="cap-left"></div>
+<div class="cap-right"></div>
+</div>
+</div>
+</header>
+<div class="tabs-outer">
+<div class="tabs-cap-top cap-top">
+<div class="cap-left"></div>
+<div class="cap-right"></div>
+</div>
+<div class="fauxborder-left tabs-fauxborder-left">
+<div class="fauxborder-right tabs-fauxborder-right"></div>
+<div class="region-inner tabs-inner">
+<div class="tabs section" id="crosscol" name="跨欄區"><div class="widget HTML" data-version="1" id="HTML1">
+<h2 class="title">貼程式碼</h2>
+<div class="widget-content">
+CODE {
+display: block; /* fixes a strange ie margin bug */
+font-family: Courier New;
+font-size: 8pt;
+overflow:auto;
+background: #f0f0f0 url(http://klcintw.images.googlepages.com/Code_BG.gif) left top repeat-y;
+border: 1px solid #ccc;
+padding: 10px 10px 10px 21px;
+max-height:200px;
+line-height: 1.2em;
+}
+</div>
+<div class="clear"></div>
+<span class="widget-item-control">
+<span class="item-control blog-admin">
+<a class="quickedit" href="http://www.blogger.com/rearrange?blogID=2455990311231669349&amp;widgetType=HTML&amp;widgetId=HTML1&amp;action=editWidget&amp;sectionId=crosscol" onclick="return _WidgetManager._PopupConfig(document.getElementById(&quot;HTML1&quot;));" rel="nofollow" target="configHTML1" title="編輯">
+<img alt="" height="18" src="./程序猿的程式寫作記錄_ [BCB] 創建dll和使用dll方法_files/icon18_wrench_allbkg.png" width="18">
+</a>
+</span>
+</span>
+<div class="clear"></div>
+</div></div>
+<div class="tabs no-items section" id="crosscol-overflow" name="Cross-Column 2"></div>
+</div>
+</div>
+<div class="tabs-cap-bottom cap-bottom">
+<div class="cap-left"></div>
+<div class="cap-right"></div>
+</div>
+</div>
+<div class="main-outer">
+<div class="main-cap-top cap-top">
+<div class="cap-left"></div>
+<div class="cap-right"></div>
+</div>
+<div class="fauxborder-left main-fauxborder-left">
+<div class="fauxborder-right main-fauxborder-right"></div>
+<div class="region-inner main-inner">
+<div class="columns fauxcolumns">
+<div class="fauxcolumn-outer fauxcolumn-center-outer">
+<div class="cap-top">
+<div class="cap-left"></div>
+<div class="cap-right"></div>
+</div>
+<div class="fauxborder-left">
+<div class="fauxborder-right"></div>
+<div class="fauxcolumn-inner">
+</div>
+</div>
+<div class="cap-bottom">
+<div class="cap-left"></div>
+<div class="cap-right"></div>
+</div>
+</div>
+<div class="fauxcolumn-outer fauxcolumn-left-outer">
+<div class="cap-top">
+<div class="cap-left"></div>
+<div class="cap-right"></div>
+</div>
+<div class="fauxborder-left">
+<div class="fauxborder-right"></div>
+<div class="fauxcolumn-inner">
+</div>
+</div>
+<div class="cap-bottom">
+<div class="cap-left"></div>
+<div class="cap-right"></div>
+</div>
+</div>
+<div class="fauxcolumn-outer fauxcolumn-right-outer">
+<div class="cap-top">
+<div class="cap-left"></div>
+<div class="cap-right"></div>
+</div>
+<div class="fauxborder-left">
+<div class="fauxborder-right"></div>
+<div class="fauxcolumn-inner">
+</div>
+</div>
+<div class="cap-bottom">
+<div class="cap-left"></div>
+<div class="cap-right"></div>
+</div>
+</div>
+<!-- corrects IE6 width calculation -->
+<div class="columns-inner">
+<div class="column-center-outer">
+<div class="column-center-inner">
+<div class="main section" id="main" name="主版面"><div class="widget Blog" data-version="1" id="Blog1">
+<div class="blog-posts hfeed">
+
+          <div class="date-outer">
+        
+<h2 class="date-header"><span>2016年6月5日 星期日</span></h2>
+
+          <div class="date-posts">
+        
+<div class="post-outer">
+<div class="post hentry uncustomized-post-template" itemprop="blogPost" itemscope="itemscope" itemtype="http://schema.org/BlogPosting">
+<meta content="https://4.bp.blogspot.com/-7MlUZWWs8Jo/V1J5NJiDefI/AAAAAAAAFtU/-oiuDVitAcUv-U2My2TQfyy0anhAO7zawCLcB/s400/new%2Bdll%2Bproject.png" itemprop="image_url">
+<meta content="2455990311231669349" itemprop="blogId">
+<meta content="5541112400630989946" itemprop="postId">
+<a name="5541112400630989946"></a>
+<h3 class="post-title entry-title" itemprop="name">
+[BCB] 創建dll和使用dll方法
+</h3>
+<div class="post-header">
+<div class="post-header-line-1"></div>
+</div>
+<div class="post-body entry-content" id="post-body-5541112400630989946" itemprop="description articleBody">
+DLL的原文為Dynamic Link Library，中文稱為動態連結函式庫。<br>
+<br>
+使用dll的好處可減少程式佔用記憶體空間，當程式有需要時才會將dll所需要的資源載入到memory中。 除了記憶體的優勢外，當開發大型程式時，可將程式所需的功能拆成一個個component，將這些compenent的輸入和輸出定義出來後，即可分發給各個工程師撰寫完成。<br>
+未來若發現某個component有問題時，維護也只需針對該component做維護。<br>
+<br>
+開發dll需要注意的事情是你要如何寫[entry point]，意思是程式呼叫dll檔案時的切入點。<br>
+而用BCB來開發動態函式庫時有兩種entry point寫法，一種為使用BCB的entry point；另外一種則是用visual studio C++的entry point。<br>
+<br>
+底下會針對上述 2種entry point的方式分別做說明。<br>
+<br>
+[BCB Type entry point]<br>
+1. 建立一個dll的開發專案<br>
+[File] - &gt; [New] - &gt; [Other]<br>
+<div class="separator" style="clear: both; text-align: center;">
+<a href="https://4.bp.blogspot.com/-7MlUZWWs8Jo/V1J5NJiDefI/AAAAAAAAFtU/-oiuDVitAcUv-U2My2TQfyy0anhAO7zawCLcB/s1600/new%2Bdll%2Bproject.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="332" src="./程序猿的程式寫作記錄_ [BCB] 創建dll和使用dll方法_files/new dll project.png" width="400"></a></div>
+選擇DLL Wizard<br>
+<br>
+2. 選擇c++和Use VCL<br>
+<div class="separator" style="clear: both; text-align: center;">
+<a href="https://1.bp.blogspot.com/-nc2Frrt_4hA/V1TGQm6K_xI/AAAAAAAAFts/v9ye-2w64FMElZOp9q1nJhdfCVORaUhawCLcB/s1600/dll%2Bwizard.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="170" src="./程序猿的程式寫作記錄_ [BCB] 創建dll和使用dll方法_files/dll wizard.png" width="320"></a></div>
+<div class="separator" style="clear: both; text-align: left;">
+按[OK]繼續。</div>
+<br>
+<br>
+3. BCB自動生成以下程式碼<br>
+<pre class="code prettyprint"> 
+//---------------------------------------------------------------------------
+
+#include <vcl .h="">
+#include <windows .h="">
+#pragma hdrstop
+//---------------------------------------------------------------------------
+//   Important note about DLL memory management when your DLL uses the
+//   static version of the RunTime Library:
+//
+//   If your DLL exports any functions that pass String objects (or structs/
+//   classes containing nested Strings) as parameter or function results,
+//   you will need to add the library MEMMGR.LIB to both the DLL project and
+//   any other projects that use the DLL.  You will also need to use MEMMGR.LIB
+//   if any other projects which use the DLL will be performing new or delete
+//   operations on any non-TObject-derived classes which are exported from the
+//   DLL. Adding MEMMGR.LIB to your project will change the DLL and its calling
+//   EXE's to use the BORLNDMM.DLL as their memory manager.  In these cases,
+//   the file BORLNDMM.DLL should be deployed along with your DLL.
+//
+//   To avoid using BORLNDMM.DLL, pass string information using "char *" or
+//   ShortString parameters.
+//
+//   If your DLL uses the dynamic version of the RTL, you do not need to
+//   explicitly add MEMMGR.LIB as this will be done implicitly for you
+//---------------------------------------------------------------------------
+
+#pragma argsused
+int WINAPI DllEntryPoint(HINSTANCE hinst, unsigned long reason, void* lpReserved)
+{
+   return 1;
+}
+//---------------------------------------------------------------------------</windows></vcl></pre>
+4. 撰寫程式碼<br>
+<pre class="code prettyprint"> 
+long __declspec(dllexport) __stdcall RPC_ADDRESS_CHANGE_FN(void *) BCBType_Count(int m, int n)
+{
+   long sum = 0;
+
+   for(m; m&lt;=n; m++)
+   {
+      sum += m;
+   }
+
+   return sum;
+}
+</pre>
+<br>
+<span style="color: blue;">__declspec(dllexport)是為了讓compiler知道我們現在要寫的是一個DLL 檔案。</span><br>
+<span style="color: blue;">__stdcall則是一種函式的呼叫方式。</span><br>
+<br>
+5. 編譯程式碼。<br>
+編譯時會依據專案名稱產生對應的dll和lib檔案。 以該範例吾人想產生 1個dllexample的dll，則此時必須把專案名稱要更改為dllexample。<br>
+按compiler後，則可在專案目錄下找到dllexample.dll和dllexample.lib兩個檔案。<br>
+目前為此已完成dll的製作工作了，接下來就是要如何使用這個dll檔案。<br>
+<br>
+========================================================================<br>
+<br>
+[使用dll]<br>
+1. 創建一個專案名為useDll。<br>
+2.將剛才製作的dllexample.dll和dllexample.lib檔案複制到該專案下。<br>
+3.將lib檔案加入到該專案中。<br>
+[Project] - &gt; [Add Project]<br>
+<div class="separator" style="clear: both; text-align: center;">
+<a href="https://2.bp.blogspot.com/--yjH_uXOMvU/V1TMb2SnpkI/AAAAAAAAFt8/gNs2bbEUJpoiWR9247ESc6vwOrLJrf3XgCLcB/s1600/Add%2BProject.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="400" src="./程序猿的程式寫作記錄_ [BCB] 創建dll和使用dll方法_files/Add Project.png" width="640"></a></div>
+<div class="separator" style="clear: both; text-align: center;">
+<a href="https://2.bp.blogspot.com/-AiSSLjClqpA/V1TMnIdeFSI/AAAAAAAAFuE/U2KBUG6vsJQN24_-nD4CH0lVWae_6a7kACLcB/s1600/choice%2Blib.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="250" src="./程序猿的程式寫作記錄_ [BCB] 創建dll和使用dll方法_files/choice lib.png" width="400"></a></div>
+選擇檔案類型為lib，並選擇dllexample.lib檔案後按[開啟舊檔]來將該libray加到專案中。<br>
+<br>
+4. &nbsp;產生 1個header file定義dll檔案內的函式。<br>
+[File] - &gt; [New] - &gt; [Other]<br>
+<div class="separator" style="clear: both; text-align: center;">
+<a href="https://4.bp.blogspot.com/-VL4acuUX0k0/V1TNhtjJGKI/AAAAAAAAFuQ/hs4L8tg2A0s0g78rPgLnP-bRlXAvyC_gQCLcB/s1600/header%2Bfile.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="266" src="./程序猿的程式寫作記錄_ [BCB] 創建dll和使用dll方法_files/header file.png" width="320"></a></div>
+<br>
+並將檔案儲存為user.h。<br>
+<br>
+5. 在user.h中定義dll 函式。<br>
+int __declspec(dllexport) __stdcall BCBType_count(int m, int n);<br>
+<br>
+6. 在專案中記得要加入#include "user.h"<br>
+<br>
+7. 撰寫專案界面。<br>
+<div class="separator" style="clear: both; text-align: center;">
+<a href="https://3.bp.blogspot.com/-0_gXXADAR88/V1TQMpOIvmI/AAAAAAAAFug/vzU-0ZSADp0XaAJr2DTpAOsz-KCo2Y-eACLcB/s1600/Program%2Binterface.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="88" src="./程序猿的程式寫作記錄_ [BCB] 創建dll和使用dll方法_files/Program interface.png" width="320"></a></div>
+<br>
+usedll.h<br>
+<pre class="code prettyprint"> 
+//---------------------------------------------------------------------------
+
+#ifndef Unit1H
+#define Unit1H
+//---------------------------------------------------------------------------
+#include <classes .hpp="">
+#include <controls .hpp="">
+#include <stdctrls .hpp="">
+#include <forms .hpp="">
+#include "user.h"
+//---------------------------------------------------------------------------
+class TForm1 : public TForm
+{
+__published: // IDE-managed Components
+   TLabel *Label1;
+   TEdit *Edit1;
+   TLabel *Label2;
+   TEdit *Edit2;
+   TButton *Button1;
+   TEdit *Edit3;
+   void __fastcall Button1Click(TObject *Sender);
+private: // User declarations
+public:  // User declarations
+   __fastcall TForm1(TComponent* Owner);
+};
+//---------------------------------------------------------------------------
+extern PACKAGE TForm1 *Form1;
+//---------------------------------------------------------------------------
+#endif
+</forms></stdctrls></controls></classes></pre>
+usedll.cpp<br>
+<pre class="code prettyprint"> 
+//---------------------------------------------------------------------------
+
+#include <vcl .h="">
+#pragma hdrstop
+
+#include "Unit1.h"
+//---------------------------------------------------------------------------
+#pragma package(smart_init)
+#pragma resource "*.dfm"
+TForm1 *Form1;
+//---------------------------------------------------------------------------
+__fastcall TForm1::TForm1(TComponent* Owner)
+   : TForm(Owner)
+{
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::Button1Click(TObject *Sender)
+{
+   int m, n;
+   m = Edit1-&gt;Text.ToInt();
+   n = Edit2-&gt;Text.ToInt();
+
+   Edit3-&gt;Text = BCBType_Count(m,n);
+
+}
+//---------------------------------------------------------------------------
+
+</vcl></pre>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<div style="clear: both;"></div>
+</div>
+<div class="post-footer">
+<div class="post-footer-line post-footer-line-1">
+<span class="post-author vcard">
+張貼者：
+<span class="fn" itemprop="author" itemscope="itemscope" itemtype="http://schema.org/Person">
+<span itemprop="name">Tommy</span>
+</span>
+</span>
+<span class="post-timestamp">
+於
+<meta content="http://tommychentw.blogspot.com/2016/06/bcb-dlldll.html" itemprop="url">
+<a class="timestamp-link" href="http://tommychentw.blogspot.com/2016/06/bcb-dlldll.html" rel="bookmark" title="permanent link"><abbr class="published" itemprop="datePublished" title="2016-06-05T18:01:00-07:00">下午6:01</abbr></a>
+</span>
+<span class="reaction-buttons">
+</span>
+<span class="post-comment-link">
+</span>
+<span class="post-icons">
+<span class="item-control blog-admin pid-1271440866">
+<a href="https://www.blogger.com/post-edit.g?blogID=2455990311231669349&amp;postID=5541112400630989946&amp;from=pencil" title="編輯文章">
+<img alt="" class="icon-action" height="18" src="./程序猿的程式寫作記錄_ [BCB] 創建dll和使用dll方法_files/icon18_edit_allbkg.gif" width="18">
+</a>
+</span>
+</span>
+<div class="post-share-buttons goog-inline-block">
+<a class="goog-inline-block share-button sb-email" href="https://www.blogger.com/share-post.g?blogID=2455990311231669349&amp;postID=5541112400630989946&amp;target=email" target="_blank" title="以電子郵件傳送這篇文章"><span class="share-button-link-text">以電子郵件傳送這篇文章</span></a><a class="goog-inline-block share-button sb-blog" href="https://www.blogger.com/share-post.g?blogID=2455990311231669349&amp;postID=5541112400630989946&amp;target=blog" onclick="window.open(this.href, &quot;_blank&quot;, &quot;height=270,width=475&quot;); return false;" target="_blank" title="BlogThis!"><span class="share-button-link-text">BlogThis!</span></a><a class="goog-inline-block share-button sb-twitter" href="https://www.blogger.com/share-post.g?blogID=2455990311231669349&amp;postID=5541112400630989946&amp;target=twitter" target="_blank" title="分享至 Twitter"><span class="share-button-link-text">分享至 Twitter</span></a><a class="goog-inline-block share-button sb-facebook" href="https://www.blogger.com/share-post.g?blogID=2455990311231669349&amp;postID=5541112400630989946&amp;target=facebook" onclick="window.open(this.href, &quot;_blank&quot;, &quot;height=430,width=640&quot;); return false;" target="_blank" title="分享至 Facebook"><span class="share-button-link-text">分享至 Facebook</span></a><a class="goog-inline-block share-button sb-pinterest" href="https://www.blogger.com/share-post.g?blogID=2455990311231669349&amp;postID=5541112400630989946&amp;target=pinterest" target="_blank" title="分享到 Pinterest"><span class="share-button-link-text">分享到 Pinterest</span></a>
+</div>
+</div>
+<div class="post-footer-line post-footer-line-2">
+<span class="post-labels">
+</span>
+</div>
+<div class="post-footer-line post-footer-line-3">
+<span class="post-location">
+</span>
+</div>
+</div>
+</div>
+<div class="comments" id="comments">
+<a name="comments"></a>
+<h4>沒有留言:</h4>
+<div id="Blog1_comments-block-wrapper">
+<dl class="avatar-comment-indent" id="comments-block">
+</dl>
+</div>
+<p class="comment-footer">
+</p><div class="comment-form">
+<a name="comment-form"></a>
+<h4 id="comment-post-message">張貼留言</h4>
+<p>
+</p>
+<a href="https://www.blogger.com/comment-iframe.g?blogID=2455990311231669349&amp;postID=5541112400630989946&amp;blogspotRpcToken=5478176" id="comment-editor-src"></a>
+<iframe allowtransparency="true" class="blogger-iframe-colorize blogger-comment-from-post" frameborder="0" height="194px" id="comment-editor" name="comment-editor" src="./程序猿的程式寫作記錄_ [BCB] 創建dll和使用dll方法_files/comment-iframe.html" width="100%" data-resized="true"></iframe>
+<script src="./程序猿的程式寫作記錄_ [BCB] 創建dll和使用dll方法_files/3167449408-comment_from_post_iframe.js.下載" type="text/javascript"></script>
+<script type="text/javascript">
+      BLOG_CMT_createIframe('https://www.blogger.com/rpc_relay.html');
+    </script>
+</div>
+<p></p>
+</div>
+</div>
+
+        </div></div>
+      
+</div>
+<div class="blog-pager" id="blog-pager">
+<span id="blog-pager-newer-link">
+<a class="blog-pager-newer-link" href="http://tommychentw.blogspot.com/2016/06/bcb-dllwindows-form.html" id="Blog1_blog-pager-newer-link" title="較新的文章">較新的文章</a>
+</span>
+<span id="blog-pager-older-link">
+<a class="blog-pager-older-link" href="http://tommychentw.blogspot.com/2016/05/c-systemwindowsfomrs.html" id="Blog1_blog-pager-older-link" title="較舊的文章">較舊的文章</a>
+</span>
+<a class="home-link" href="http://tommychentw.blogspot.com/">首頁</a>
+</div>
+<div class="clear"></div>
+<div class="post-feeds">
+<div class="feed-links">
+訂閱：
+<a class="feed-link" href="http://tommychentw.blogspot.com/feeds/5541112400630989946/comments/default" target="_blank" type="application/atom+xml">張貼留言 (Atom)</a>
+</div>
+</div>
+</div></div>
+</div>
+</div>
+<div class="column-left-outer">
+<div class="column-left-inner">
+<aside>
+</aside>
+</div>
+</div>
+<div class="column-right-outer">
+<div class="column-right-inner">
+<aside>
+<div class="sidebar section" id="sidebar-right-1"><div class="widget Followers" data-version="1" id="Followers1">
+<h2 class="title">追蹤者</h2>
+<div class="widget-content">
+<div id="Followers1-wrapper">
+<div style="margin-right:2px;">
+<div><script type="text/javascript" src="./程序猿的程式寫作記錄_ [BCB] 創建dll和使用dll方法_files/plusone.js.下載" gapi_processed="true"></script>
+<div id="followers-iframe-container"><iframe ng-non-bindable="" frameborder="0" hspace="0" marginheight="0" marginwidth="0" scrolling="no" style="" tabindex="0" vspace="0" width="100%" id="I0_1603959304285" name="I0_1603959304285" src="./程序猿的程式寫作記錄_ [BCB] 創建dll和使用dll方法_files/followers.html" height="13"></iframe></div>
+<script type="text/javascript">
+    window.followersIframe = null;
+    function followersIframeOpen(url) {
+      gapi.load("gapi.iframes", function() {
+        if (gapi.iframes && gapi.iframes.getContext) {
+          window.followersIframe = gapi.iframes.getContext().openChild({
+            url: url,
+            where: document.getElementById("followers-iframe-container"),
+            messageHandlersFilter: gapi.iframes.CROSS_ORIGIN_IFRAMES_FILTER,
+            messageHandlers: {
+              '_ready': function(obj) {
+                window.followersIframe.getIframeEl().height = obj.height;
+              },
+              'reset': function() {
+                window.followersIframe.close();
+                followersIframeOpen("https://www.blogger.com/followers.g?blogID\x3d2455990311231669349\x26colors\x3dCgt0cmFuc3BhcmVudBILdHJhbnNwYXJlbnQaByMyMjIyMjIiByMyMjg4YmIqByNmZmZmZmYyByMwMDAwMDA6ByMyMjIyMjJCByMyMjg4YmJKByM5OTk5OTlSByMyMjg4YmJaC3RyYW5zcGFyZW50\x26pageSize\x3d21\x26postID\x3d5541112400630989946\x26origin\x3dhttp://tommychentw.blogspot.com/");
+              },
+              'open': function(url) {
+                window.followersIframe.close();
+                followersIframeOpen(url);
+              },
+              'blogger-ping': function() {
+              }
+            }
+          });
+        }
+      });
+    }
+    followersIframeOpen("https://www.blogger.com/followers.g?blogID\x3d2455990311231669349\x26colors\x3dCgt0cmFuc3BhcmVudBILdHJhbnNwYXJlbnQaByMyMjIyMjIiByMyMjg4YmIqByNmZmZmZmYyByMwMDAwMDA6ByMyMjIyMjJCByMyMjg4YmJKByM5OTk5OTlSByMyMjg4YmJaC3RyYW5zcGFyZW50\x26pageSize\x3d21\x26postID\x3d5541112400630989946\x26origin\x3dhttp://tommychentw.blogspot.com/");
+  </script></div>
+</div>
+</div>
+<div class="clear"></div>
+<span class="widget-item-control">
+<span class="item-control blog-admin">
+<a class="quickedit" href="http://www.blogger.com/rearrange?blogID=2455990311231669349&amp;widgetType=Followers&amp;widgetId=Followers1&amp;action=editWidget&amp;sectionId=sidebar-right-1" onclick="return _WidgetManager._PopupConfig(document.getElementById(&quot;Followers1&quot;));" rel="nofollow" target="configFollowers1" title="編輯">
+<img alt="" height="18" src="./程序猿的程式寫作記錄_ [BCB] 創建dll和使用dll方法_files/icon18_wrench_allbkg.png" width="18">
+</a>
+</span>
+</span>
+<div class="clear"></div>
+</div>
+</div><div class="widget BlogArchive" data-version="1" id="BlogArchive1">
+<h2>網誌存檔</h2>
+<div class="widget-content">
+<div id="ArchiveList">
+<div id="BlogArchive1_ArchiveList">
+<ul class="hierarchy">
+<li class="archivedate expanded">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy toggle-open">
+
+        ▼&nbsp;
+      
+</span>
+</a>
+<a class="post-count-link" href="http://tommychentw.blogspot.com/2016/">
+2016
+</a>
+<span class="post-count" dir="ltr">(6)</span>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+        ►&nbsp;
+      
+</span>
+</a>
+<a class="post-count-link" href="http://tommychentw.blogspot.com/2016/07/">
+七月
+</a>
+<span class="post-count" dir="ltr">(1)</span>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate expanded">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy toggle-open">
+
+        ▼&nbsp;
+      
+</span>
+</a>
+<a class="post-count-link" href="http://tommychentw.blogspot.com/2016/06/">
+六月
+</a>
+<span class="post-count" dir="ltr">(4)</span>
+<ul class="posts">
+<li><a href="http://tommychentw.blogspot.com/2016/06/2.html">視覺2點定位概述</a></li>
+<li><a href="http://tommychentw.blogspot.com/2016/06/bcb.html">[BCB] 靜態函式庫的開發</a></li>
+<li><a href="http://tommychentw.blogspot.com/2016/06/bcb-dllwindows-form.html">[BCB] 如何在dll中建立一個windows form程式</a></li>
+<li><a href="http://tommychentw.blogspot.com/2016/06/bcb-dlldll.html">[BCB] 創建dll和使用dll方法</a></li>
+</ul>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+        ►&nbsp;
+      
+</span>
+</a>
+<a class="post-count-link" href="http://tommychentw.blogspot.com/2016/05/">
+五月
+</a>
+<span class="post-count" dir="ltr">(1)</span>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="clear"></div>
+<span class="widget-item-control">
+<span class="item-control blog-admin">
+<a class="quickedit" href="http://www.blogger.com/rearrange?blogID=2455990311231669349&amp;widgetType=BlogArchive&amp;widgetId=BlogArchive1&amp;action=editWidget&amp;sectionId=sidebar-right-1" onclick="return _WidgetManager._PopupConfig(document.getElementById(&quot;BlogArchive1&quot;));" rel="nofollow" target="configBlogArchive1" title="編輯">
+<img alt="" height="18" src="./程序猿的程式寫作記錄_ [BCB] 創建dll和使用dll方法_files/icon18_wrench_allbkg.png" width="18">
+</a>
+</span>
+</span>
+<div class="clear"></div>
+</div>
+</div>
+</div>
+</aside>
+</div>
+</div>
+</div>
+<div style="clear: both"></div>
+<!-- columns -->
+</div>
+<!-- main -->
+</div>
+</div>
+<div class="main-cap-bottom cap-bottom">
+<div class="cap-left"></div>
+<div class="cap-right"></div>
+</div>
+</div>
+<footer>
+<div class="footer-outer">
+<div class="footer-cap-top cap-top">
+<div class="cap-left"></div>
+<div class="cap-right"></div>
+</div>
+<div class="fauxborder-left footer-fauxborder-left">
+<div class="fauxborder-right footer-fauxborder-right"></div>
+<div class="region-inner footer-inner">
+<div class="foot no-items section" id="footer-1"></div>
+<table border="0" cellpadding="0" cellspacing="0" class="section-columns columns-2">
+<tbody>
+<tr>
+<td class="first columns-cell">
+<div class="foot no-items section" id="footer-2-1"></div>
+</td>
+<td class="columns-cell">
+<div class="foot no-items section" id="footer-2-2"></div>
+</td>
+</tr>
+</tbody>
+</table>
+<!-- outside of the include in order to lock Attribution widget -->
+<div class="foot section" id="footer-3" name="頁尾"><div class="widget Attribution" data-version="1" id="Attribution1">
+<div class="widget-content" style="text-align: center;">
+技術提供：<a href="https://www.blogger.com/" target="_blank">Blogger</a>.
+</div>
+<div class="clear"></div>
+<span class="widget-item-control">
+<span class="item-control blog-admin">
+<a class="quickedit" href="http://www.blogger.com/rearrange?blogID=2455990311231669349&amp;widgetType=Attribution&amp;widgetId=Attribution1&amp;action=editWidget&amp;sectionId=footer-3" onclick="return _WidgetManager._PopupConfig(document.getElementById(&quot;Attribution1&quot;));" rel="nofollow" target="configAttribution1" title="編輯">
+<img alt="" height="18" src="./程序猿的程式寫作記錄_ [BCB] 創建dll和使用dll方法_files/icon18_wrench_allbkg.png" width="18">
+</a>
+</span>
+</span>
+<div class="clear"></div>
+</div></div>
+</div>
+</div>
+<div class="footer-cap-bottom cap-bottom">
+<div class="cap-left"></div>
+<div class="cap-right"></div>
+</div>
+</div>
+</footer>
+<!-- content -->
+</div>
+</div>
+<div class="content-cap-bottom cap-bottom">
+<div class="cap-left"></div>
+<div class="cap-right"></div>
+</div>
+</div>
+</div>
+<script type="text/javascript">
+    window.setTimeout(function() {
+        document.body.className = document.body.className.replace('loading', '');
+      }, 10);
+  </script>
+
+<script type="text/javascript" src="./程序猿的程式寫作記錄_ [BCB] 創建dll和使用dll方法_files/2095732370-widgets.js.下載"></script>
+<script type="text/javascript">
+window['__wavt'] = 'AOuZoY7i5Fy9HPesJ2Rx8RPVFKZdAlyWjA:1603958124190';_WidgetManager._Init('//www.blogger.com/rearrange?blogID\x3d2455990311231669349','//tommychentw.blogspot.com/2016/06/bcb-dlldll.html','2455990311231669349');
+_WidgetManager._SetDataContext([{'name': 'blog', 'data': {'blogId': '2455990311231669349', 'title': '程序猿的程式寫作記錄', 'url': 'http://tommychentw.blogspot.com/2016/06/bcb-dlldll.html', 'canonicalUrl': 'http://tommychentw.blogspot.com/2016/06/bcb-dlldll.html', 'homepageUrl': 'http://tommychentw.blogspot.com/', 'searchUrl': 'http://tommychentw.blogspot.com/search', 'canonicalHomepageUrl': 'http://tommychentw.blogspot.com/', 'blogspotFaviconUrl': 'http://tommychentw.blogspot.com/favicon.ico', 'bloggerUrl': 'https://www.blogger.com', 'hasCustomDomain': false, 'httpsEnabled': true, 'enabledCommentProfileImages': true, 'gPlusViewType': 'FILTERED_POSTMOD', 'adultContent': false, 'analyticsAccountNumber': '', 'encoding': 'UTF-8', 'locale': 'zh-TW', 'localeUnderscoreDelimited': 'zh_tw', 'languageDirection': 'ltr', 'isPrivate': false, 'isMobile': false, 'isMobileRequest': false, 'mobileClass': '', 'isPrivateBlog': false, 'isDynamicViewsAvailable': true, 'feedLinks': '\x3clink rel\x3d\x22alternate\x22 type\x3d\x22application/atom+xml\x22 title\x3d\x22程序猿的程式寫作記錄 - Atom\x22 href\x3d\x22http://tommychentw.blogspot.com/feeds/posts/default\x22 /\x3e\n\x3clink rel\x3d\x22alternate\x22 type\x3d\x22application/rss+xml\x22 title\x3d\x22程序猿的程式寫作記錄 - RSS\x22 href\x3d\x22http://tommychentw.blogspot.com/feeds/posts/default?alt\x3drss\x22 /\x3e\n\x3clink rel\x3d\x22service.post\x22 type\x3d\x22application/atom+xml\x22 title\x3d\x22程序猿的程式寫作記錄 - Atom\x22 href\x3d\x22https://www.blogger.com/feeds/2455990311231669349/posts/default\x22 /\x3e\n\n\x3clink rel\x3d\x22alternate\x22 type\x3d\x22application/atom+xml\x22 title\x3d\x22程序猿的程式寫作記錄 - Atom\x22 href\x3d\x22http://tommychentw.blogspot.com/feeds/5541112400630989946/comments/default\x22 /\x3e\n', 'meTag': '', 'adsenseHostId': 'ca-host-pub-1556223355139109', 'adsenseHasAds': false, 'ieCssRetrofitLinks': '\x3c!--[if IE]\x3e\x3cscript type\x3d\x22text/javascript\x22 src\x3d\x22https://www.blogger.com/static/v1/jsbin/4244862144-ieretrofit.js\x22\x3e\x3c/script\x3e\n\x3c![endif]--\x3e', 'view': '', 'dynamicViewsCommentsSrc': '//www.blogblog.com/dynamicviews/4224c15c4e7c9321/js/comments.js', 'dynamicViewsScriptSrc': '//www.blogblog.com/dynamicviews/97b025341ebd1c4e', 'plusOneApiSrc': 'https://apis.google.com/js/plusone.js', 'disableGComments': true, 'sharing': {'platforms': [{'name': '取得連結', 'key': 'link', 'shareMessage': '取得連結', 'target': ''}, {'name': 'Facebook', 'key': 'facebook', 'shareMessage': '分享到 Facebook', 'target': 'facebook'}, {'name': 'BlogThis!', 'key': 'blogThis', 'shareMessage': 'BlogThis!', 'target': 'blog'}, {'name': 'Twitter', 'key': 'twitter', 'shareMessage': '分享到 Twitter', 'target': 'twitter'}, {'name': 'Pinterest', 'key': 'pinterest', 'shareMessage': '分享到 Pinterest', 'target': 'pinterest'}, {'name': '電子郵件', 'key': 'email', 'shareMessage': '電子郵件', 'target': 'email'}], 'disableGooglePlus': true, 'googlePlusShareButtonWidth': 300, 'googlePlusBootstrap': '\x3cscript type\x3d\x22text/javascript\x22\x3ewindow.___gcfg \x3d {\x27lang\x27: \x27zh_TW\x27};\x3c/script\x3e'}, 'hasCustomJumpLinkMessage': false, 'jumpLinkMessage': '閱讀完整內容', 'pageType': 'item', 'postId': '5541112400630989946', 'postImageThumbnailUrl': 'https://4.bp.blogspot.com/-7MlUZWWs8Jo/V1J5NJiDefI/AAAAAAAAFtU/-oiuDVitAcUv-U2My2TQfyy0anhAO7zawCLcB/s72-c/new%2Bdll%2Bproject.png', 'postImageUrl': 'https://4.bp.blogspot.com/-7MlUZWWs8Jo/V1J5NJiDefI/AAAAAAAAFtU/-oiuDVitAcUv-U2My2TQfyy0anhAO7zawCLcB/s400/new%2Bdll%2Bproject.png', 'pageName': '[BCB] 創建dll和使用dll方法', 'pageTitle': '程序猿的程式寫作記錄: [BCB] 創建dll和使用dll方法'}}, {'name': 'features', 'data': {'sharing_get_link_dialog': 'true', 'sharing_native': 'false'}}, {'name': 'messages', 'data': {'edit': '編輯', 'linkCopiedToClipboard': '已將連結複製到剪貼簿&#65281;', 'ok': '確定', 'postLink': '文章連結'}}, {'name': 'template', 'data': {'isResponsive': false, 'isAlternateRendering': false, 'isCustom': false}}, {'name': 'view', 'data': {'classic': {'name': 'classic', 'url': '?view\x3dclassic'}, 'flipcard': {'name': 'flipcard', 'url': '?view\x3dflipcard'}, 'magazine': {'name': 'magazine', 'url': '?view\x3dmagazine'}, 'mosaic': {'name': 'mosaic', 'url': '?view\x3dmosaic'}, 'sidebar': {'name': 'sidebar', 'url': '?view\x3dsidebar'}, 'snapshot': {'name': 'snapshot', 'url': '?view\x3dsnapshot'}, 'timeslide': {'name': 'timeslide', 'url': '?view\x3dtimeslide'}, 'isMobile': false, 'title': '[BCB] 創建dll和使用dll方法', 'description': 'DLL的原文為Dynamic Link Library&#65292;中文稱為動態連結函式庫&#12290;   使用dll的好處可減少程式佔用記憶體空間&#65292;當程式有需要時才會將dll所需要的資源載入到memory中&#12290; 除了記憶體的優勢外&#65292;當開發大型程式時&#65292;可將程式所需的功能拆成一個個component&#65292;將這...', 'featuredImage': 'https://4.bp.blogspot.com/-7MlUZWWs8Jo/V1J5NJiDefI/AAAAAAAAFtU/-oiuDVitAcUv-U2My2TQfyy0anhAO7zawCLcB/s400/new%2Bdll%2Bproject.png', 'url': 'http://tommychentw.blogspot.com/2016/06/bcb-dlldll.html', 'type': 'item', 'isSingleItem': true, 'isMultipleItems': false, 'isError': false, 'isPage': false, 'isPost': true, 'isHomepage': false, 'isArchive': false, 'isLabelSearch': false, 'postId': 5541112400630989946}}]);
+_WidgetManager._RegisterWidget('_NavbarView', new _WidgetInfo('Navbar1', 'navbar', document.getElementById('Navbar1'), {}, 'displayModeFull'));
+_WidgetManager._RegisterWidget('_HeaderView', new _WidgetInfo('Header1', 'header', document.getElementById('Header1'), {}, 'displayModeFull'));
+_WidgetManager._RegisterWidget('_HTMLView', new _WidgetInfo('HTML1', 'crosscol', document.getElementById('HTML1'), {}, 'displayModeFull'));
+_WidgetManager._RegisterWidget('_BlogView', new _WidgetInfo('Blog1', 'main', document.getElementById('Blog1'), {'cmtInteractionsEnabled': false, 'lightboxEnabled': true, 'lightboxModuleUrl': 'https://www.blogger.com/static/v1/jsbin/1831461017-lbx__zh_tw.js', 'lightboxCssUrl': 'https://www.blogger.com/static/v1/v-css/368954415-lightbox_bundle.css'}, 'displayModeFull'));
+_WidgetManager._RegisterWidget('_FollowersView', new _WidgetInfo('Followers1', 'sidebar-right-1', document.getElementById('Followers1'), {}, 'displayModeFull'));
+_WidgetManager._RegisterWidget('_BlogArchiveView', new _WidgetInfo('BlogArchive1', 'sidebar-right-1', document.getElementById('BlogArchive1'), {'languageDirection': 'ltr', 'loadingMessage': '載入中\x26hellip;'}, 'displayModeFull'));
+_WidgetManager._RegisterWidget('_AttributionView', new _WidgetInfo('Attribution1', 'footer-3', document.getElementById('Attribution1'), {}, 'displayModeFull'));
+</script>
+
+<link type="text/css" rel="stylesheet" href="./程序猿的程式寫作記錄_ [BCB] 創建dll和使用dll方法_files/368954415-lightbox_bundle.css"><script type="text/javascript" src="./程序猿的程式寫作記錄_ [BCB] 創建dll和使用dll方法_files/1831461017-lbx__zh_tw.js.下載"></script></body></html>
